@@ -2,7 +2,7 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestJSON);
 
-using namespace showlib;
+using namespace ShowLib;
 using std::string;
 using std::cout;
 using std::endl;

@@ -9,13 +9,21 @@ CONFIG += sdk_no_version_chec
 INCLUDEPATH += include/ /usr/local/include
 
 SOURCES += \
+    showlib/FileUtilities.cpp \
     showlib/JSONSerializable.cpp \
+    showlib/OptionHandler.cpp \
+    showlib/StringUtils.cpp \
     tests/TestJSON.cpp \
+    tests/TestStrings.cpp \
     tests/main-test.cpp
 
 HEADERS += \
+    showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
+    showlib/OptionHandler.h \
+    showlib/StringUtils.h \
     tests/TestJSON.h \
+    tests/TestStrings.h \
     tests/UnitTesting.h \
     tests/main-test.h
 

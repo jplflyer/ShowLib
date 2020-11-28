@@ -9,7 +9,7 @@
 
 using JSON = nlohmann::json;
 
-namespace showlib {
+namespace ShowLib {
 
 /**
  * Treat this like an interface.
@@ -31,6 +31,7 @@ public:
     static double doubleValue(const JSON &json, const std::string &key, double defaultValue = 0.0);
     static bool boolValue(const JSON &json, const std::string &key, bool defaultValue = false);
     static JSON jsonValue(const JSON &json, const std::string &key);
+    static JSON jsonArray(const JSON &json, const std::string &key);
 
     // These setters only push non-empty values.
     static void setStringValue(nlohmann::json &json, const std::string &key, const std::string &value);
@@ -64,7 +65,7 @@ public:
     /**
      * Serialize this vector into this JSON array.
      */
-    JSON toJSON(JSON &json) override {
+    JSON toJSON(JSON &json) const override {
         for (const std::shared_ptr<ObjectType> & obj: *this) {
             JSON childJson = JSON::object();
             obj->toJSON(childJson);
@@ -80,6 +81,15 @@ public:
      */
     void removeAll(Comparator comp) {
         this->erase(std::remove_if(this->begin(), this->end(), comp), this->end());
+    }
+
+    /**
+     * Finder with a comparator.
+     */
+    Pointer findIf(Comparator comp) const {
+        auto objIter = std::find_if(this->cbegin(), this->cend(), comp);
+
+        return (objIter == this->cend()) ? nullptr : *objIter;
     }
 };
 

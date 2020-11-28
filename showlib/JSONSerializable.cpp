@@ -1,6 +1,6 @@
 #include "JSONSerializable.h"
 
-using namespace showlib;
+using namespace ShowLib;
 
 using std::string;
 
@@ -36,7 +36,7 @@ JSONSerializable::toString(int indent) const {
  * Output to a stream.
  */
 std::ostream &
-operator<<(std::ostream &output, const JSONSerializable &obj) {
+ShowLib::operator<<(std::ostream &output, const JSONSerializable &obj) {
     output << obj.toString(2);
     return output;
 }
@@ -147,6 +147,20 @@ JSONSerializable::jsonValue(const JSON &json, const std::string &key) {
         return *it;
     }
     return JSON::object();
+}
+
+/**
+ * Find this key and return the corresponding JSON array.
+ *
+ * @returns the value or an empty JSON object.
+ */
+JSON
+JSONSerializable::jsonArray(const JSON &json, const std::string &key) {
+    auto it = json.find(key);
+    if (it != json.end()) {
+        return *it;
+    }
+    return JSON::array();
 }
 
 /**
