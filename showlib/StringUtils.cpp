@@ -96,3 +96,12 @@ std::string ShowLib::camelToLower(const std::string &str) {
 
     return retVal;
 }
+
+/**
+ * This returns a string with the first character forced upper.
+ */
+std::string ShowLib::firstUpper(const std::string &str) {
+    string copy = str;
+    std::transform(str.begin(), str.begin() + 1, copy.begin(), ::toupper);
+    return copy;
+}

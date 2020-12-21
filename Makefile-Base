@@ -21,7 +21,7 @@ BINDIR := bin${MACAPPEND}
 # This gives us some starter values. Makefiles should use += to add to these.
 # Be careful with CXX flags and use = instead of := so that INCLUDES gets late expansion.
 INCLUDES := -I/usr/local/include -I${SRCDIR}
-CXXFLAGS = ${INCLUDES} --std=c++14 -g -Wno-unused-local-typedefs -Wno-deprecated-declarations ${AUTO_ARGUMENT}
+CXXFLAGS = ${INCLUDES} --std=c++17 -g -Wno-unused-local-typedefs -Wno-deprecated-declarations ${AUTO_ARGUMENT}
 LDFLAGS := -L/usr/local/lib
 
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td

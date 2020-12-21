@@ -83,7 +83,8 @@ ${LIB}: ${LIB_OBJ}
 .PHONY: install
 install: ${LIB}
 	mkdir -p /usr/local/include/showlib
-	cp ${LIB_DIR}/*.h ${LIB_DIR}/*.hpp ${INSTALL_BASE}/include/showlib
+	cp ${LIB_DIR}/*.h ${INSTALL_BASE}/include/showlib
+	cp -R include/* ${INSTALL_BASE}/include
 	cp ${LIB} ${INSTALL_BASE}/lib
 
 #======================================================================

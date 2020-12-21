@@ -89,3 +89,11 @@ TestStrings::testCamel() {
     CPPUNIT_ASSERT_EQUAL(string{"url"},  camelToLower("URL"));
     CPPUNIT_ASSERT_EQUAL(string{"my_url"},  camelToLower("myURL"));
 }
+
+/**
+ * Test firstUpper().
+ */
+void
+TestStrings::testFirstUpper() {
+    CPPUNIT_ASSERT_EQUAL(string{"MixCaseString"},  firstUpper("mixCaseString"));
+}

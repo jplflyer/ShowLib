@@ -11,4 +11,6 @@ std::string toLower(const std::string &);
 std::string toUpper(const std::string &);
 
 std::string camelToLower(const std::string &);
+
+std::string firstUpper(const std::string &);
 }
