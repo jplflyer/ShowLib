@@ -13,6 +13,7 @@ SOURCES += \
     showlib/JSONSerializable.cpp \
     showlib/OptionHandler.cpp \
     showlib/StringUtils.cpp \
+    showlib/StringVector.cpp \
     tests/TestJSON.cpp \
     tests/TestStrings.cpp \
     tests/main-test.cpp
@@ -22,6 +23,7 @@ HEADERS += \
     showlib/JSONSerializable.h \
     showlib/OptionHandler.h \
     showlib/StringUtils.h \
+    showlib/StringVector.h \
     tests/TestJSON.h \
     tests/TestStrings.h \
     tests/UnitTesting.h \

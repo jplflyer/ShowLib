@@ -65,7 +65,9 @@ echo:
 	@echo LIB_OBJ is ${LIB_OBJ}
 	@echo VPATH = ${VPATH}
 
+ifneq (,$(wildcard ${DEPDIR}/*))
 include .d/*
+endif
 
 #======================================================================
 # Making the library.
