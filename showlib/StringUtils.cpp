@@ -105,3 +105,7 @@ std::string ShowLib::firstUpper(const std::string &str) {
     std::transform(str.begin(), str.begin() + 1, copy.begin(), ::toupper);
     return copy;
 }
+
+long ShowLib::stol(const std::string &str) {
+    return str.length() > 0 ? std::stol(str) : 0;
+}

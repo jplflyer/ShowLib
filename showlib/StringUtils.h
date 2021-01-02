@@ -13,4 +13,6 @@ std::string toUpper(const std::string &);
 std::string camelToLower(const std::string &);
 
 std::string firstUpper(const std::string &);
+
+long stol(const std::string &);
 }
