@@ -88,6 +88,7 @@ install: ${LIB}
 	cp ${LIB_DIR}/*.h ${INSTALL_BASE}/include/showlib
 	cp -R include/* ${INSTALL_BASE}/include
 	cp ${LIB} ${INSTALL_BASE}/lib
+	cp Makefile-Base /usr/local/etc
 
 #======================================================================
 # Tests
