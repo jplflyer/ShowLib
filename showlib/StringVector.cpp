@@ -109,7 +109,9 @@ void StringVector::fromJSON(const JSON &json) {
  */
 JSON & StringVector::toJSON(JSON &json) const {
     for (const Pointer & obj: *this) {
-        json.push_back(*obj);
+        if (obj != nullptr) {
+            json.push_back(*obj);
+        }
     }
 
     return json;
@@ -122,4 +124,16 @@ StringVector::Pointer StringVector::findIf(StringVector::Comparator comp) const 
     auto objIter = std::find_if(this->cbegin(), this->cend(), comp);
 
     return (objIter == this->cend()) ? nullptr : *objIter;
+}
+
+std::ostream &
+operator<<(std::ostream &ostr, const ShowLib::StringVector &vec) {
+    string delim = "";
+
+    for (const StringVector::Pointer &ptr: vec) {
+        ostr << delim << *ptr;
+        delim = ", ";
+    }
+
+    return ostr;
 }

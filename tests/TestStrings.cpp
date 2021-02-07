@@ -115,4 +115,27 @@ TestStrings::testRemove() {
 
     vec.remove("");
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size after removal", 2, vec.size());
+
+    StringVector vec2;
+
+    vec2.add("Foo");
+    vec2.remove("Foo");
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size after removing everything", 0, vec2.size());
+}
+
+void
+TestStrings::testAdd() {
+    StringVector vec;
+    vec.addFront("3");
+    vec.addFront("2");
+    vec.addFront("1");
+
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size", 3, vec.size());
+    CPPUNIT_ASSERT_EQUAL(string{"1"}, *vec.at(0));
+    CPPUNIT_ASSERT_EQUAL(string{"2"}, *vec.at(1));
+    CPPUNIT_ASSERT_EQUAL(string{"3"}, *vec.at(2));
+
+    vec.remove("2");
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size", 2, vec.size());
+    cout << "Vec: " << vec << endl;
 }

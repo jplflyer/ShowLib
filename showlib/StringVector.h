@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 
 #include "JSONSerializable.h"
@@ -36,3 +37,6 @@ public:
     JSON & toJSON(JSON &) const override;
     Pointer findIf(Comparator comp) const;
 };
+
+
+std::ostream & operator<<(std::ostream &, const ShowLib::StringVector &);
