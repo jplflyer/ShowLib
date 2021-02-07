@@ -20,7 +20,7 @@ public:
         anIntValue = intValue(json, "anIntValue");
     }
 
-    JSON toJSON(JSON &json) const {
+    JSON & toJSON(JSON &json) const {
         json["aStringValue"] = aStringValue;
         json["anIntValue"] = anIntValue;
 

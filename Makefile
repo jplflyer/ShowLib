@@ -100,7 +100,7 @@ ${TEST_BIN}:
 	mkdir -p ${TEST_BIN}
 
 ${TEST_BIN}/TestJSON: ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o ${LIB}
-	$(CXX) ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o -L. -l${LIBNAME} ${LDFLAGS} $(OUTPUT_OPTION)
+	$(CXX) ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
 
 ${TEST_BIN}/TestStrings: ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o ${LIB}
-	$(CXX) ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o -L. -l${LIBNAME} ${LDFLAGS} $(OUTPUT_OPTION)
+	$(CXX) ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)

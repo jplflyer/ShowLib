@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -28,6 +29,8 @@ const string RESULTS_DIR = "./cppunit-result";
  */
 int main( int argc, char **argv)
 {
+    cout << std::boolalpha;
+
     //==================================================
     // Prepare things.
     //==================================================

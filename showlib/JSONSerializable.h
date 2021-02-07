@@ -17,7 +17,7 @@ namespace ShowLib {
 class JSONSerializable {
 public:
     virtual void fromJSON(const JSON &) = 0;
-    virtual JSON toJSON(JSON &) const = 0;
+    virtual JSON & toJSON(JSON &) const = 0;
 
     JSON getJSON() const;
 
@@ -65,7 +65,7 @@ public:
     /**
      * Serialize this vector into this JSON array.
      */
-    JSON toJSON(JSON &json) const override {
+    JSON & toJSON(JSON &json) const override {
         for (const std::shared_ptr<ObjectType> & obj: *this) {
             JSON childJson = JSON::object();
             obj->toJSON(childJson);

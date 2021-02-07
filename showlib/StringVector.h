@@ -33,6 +33,6 @@ public:
     bool contains(const std::string &str);
 
     void fromJSON(const JSON &) override;
-    JSON toJSON(JSON &) const override;
+    JSON & toJSON(JSON &) const override;
     Pointer findIf(Comparator comp) const;
 };

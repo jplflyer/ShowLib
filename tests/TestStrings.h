@@ -15,6 +15,7 @@ class TestStrings: public CppUnit::TestFixture
     CPPUNIT_TEST(testConversion);
     CPPUNIT_TEST(testCamel);
     CPPUNIT_TEST(testFirstUpper);
+    CPPUNIT_TEST(testRemove);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -24,5 +25,6 @@ public:
     void testConversion();
     void testCamel();
     void testFirstUpper();
+    void testRemove();
 };
 

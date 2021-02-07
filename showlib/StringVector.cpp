@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -38,13 +39,11 @@ StringVector::addFront(const string &value) {
 
 void
 StringVector::remove(const string &value) {
-    for (auto iter = this->begin(); iter != this->end(); ++iter) {
-        Pointer strP = *iter;
-        if (strP != nullptr && *strP == value) {
-            this->erase(iter);
-            break;
-        }
-    }
+    iterator it = std::remove_if(begin(), end(), [=](const std::shared_ptr<string> &ptr){
+        return ptr != nullptr && *ptr == value;
+    } );
+
+    erase(it, end());
 }
 
 /**
@@ -108,7 +107,7 @@ void StringVector::fromJSON(const JSON &json) {
 /**
  * Serialize this vector into this JSON array.
  */
-JSON StringVector::toJSON(JSON &json) const {
+JSON & StringVector::toJSON(JSON &json) const {
     for (const Pointer & obj: *this) {
         json.push_back(*obj);
     }

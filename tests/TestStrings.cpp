@@ -1,4 +1,5 @@
 #include "TestStrings.h"
+#include <showlib/StringVector.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestStrings);
 
@@ -96,4 +97,22 @@ TestStrings::testCamel() {
 void
 TestStrings::testFirstUpper() {
     CPPUNIT_ASSERT_EQUAL(string{"MixCaseString"},  firstUpper("mixCaseString"));
+}
+
+/**
+ * Test the remove method.
+ */
+void
+TestStrings::testRemove() {
+    string str = ":abc:def:ghi:";
+    StringVector vec;
+
+    vec.tokenize(str, ':');
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size", 5, vec.size());
+
+    vec.remove("abc");
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size after removal", 4, vec.size());
+
+    vec.remove("");
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size after removal", 2, vec.size());
 }

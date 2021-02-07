@@ -3,7 +3,7 @@ CONFIG -= qt
 TEMPLATE = lib
 CONFIG += staticlib
 
-CONFIG += c++14
+CONFIG += c++17
 CONFIG += sdk_no_version_chec
 
 INCLUDEPATH += include/ /usr/local/include
