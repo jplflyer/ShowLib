@@ -22,6 +22,7 @@ HEADERS += \
     showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
     showlib/OptionHandler.h \
+    showlib/Ranges.h \
     showlib/StringUtils.h \
     showlib/StringVector.h \
     tests/TestJSON.h \
