@@ -12,6 +12,9 @@ SOURCES += \
     showlib/FileUtilities.cpp \
     showlib/JSONSerializable.cpp \
     showlib/OptionHandler.cpp \
+    showlib/RESTServer.cpp \
+    showlib/RequestHandlerFactory.cpp \
+    showlib/Router.cpp \
     showlib/StringUtils.cpp \
     showlib/StringVector.cpp \
     tests/TestJSON.cpp \
@@ -22,7 +25,10 @@ HEADERS += \
     showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
     showlib/OptionHandler.h \
+    showlib/RESTServer.h \
     showlib/Ranges.h \
+    showlib/RequestHandlerFactory.h \
+    showlib/Router.h \
     showlib/StringUtils.h \
     showlib/StringVector.h \
     tests/TestJSON.h \
