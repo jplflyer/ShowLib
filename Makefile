@@ -10,7 +10,7 @@
 
 # This needs to be above the include, as he has targets.
 .PHONY: all
-all: directories lib
+all: directories bin lib bins
 
 # We include a standard base with lots of boilerplate.
 include Makefile-Base
@@ -24,10 +24,6 @@ VPATH := ${SRCDIR}:${LIB_DIR}:${TEST_SRC}
 INCLUDES += -I./include -I.
 CXXFLAGS += ${LOG4CPP_USE_FOUR_ARG_CONSTRUCTOR}
 LDFLAGS += -L. -L./lib -lz -llog4cplus -lcppunit -lpthread -lstdc++ -lm -ldl
-
-SRCS_NOSORT = $(shell find . -name "*.cpp" -print)
-SRCS = $(sort ${SRCS_NOSORT})
-SRCS_NODIR = $(notdir ${SRCS})
 
 LIB_NOSORT := $(wildcard ${LIB_DIR}/*.cpp)
 LIB_SRC := $(sort ${LIB_NOSORT})
@@ -61,7 +57,6 @@ reallyclean:
 .PHONY: echo
 echo:
 	@echo CXXFLAGS is ${CXXFLAGS}
-	@echo SRCS is ${SRCS}
 	@echo LIB_OBJ is ${LIB_OBJ}
 	@echo VPATH = ${VPATH}
 
@@ -80,15 +75,27 @@ ${LIB}: ${LIB_OBJ}
 	ranlib ${LIB}
 
 #======================================================================
+# I have a small number of programs.
+#======================================================================
+bin:
+	mkdir -p bin
+
+bins: bin/BCrypt-Password
+
+bin/BCrypt-Password: ${OBJDIR}/BCrypt-Password.o ${LIB}
+	$(CXX) ${OBJDIR}/BCrypt-Password.o -L. -l${LIBNAME} ${LDFLAGS} -lbcrypt $(OUTPUT_OPTION)
+
+#======================================================================
 # Installation.
 #======================================================================
 .PHONY: install
-install: ${LIB}
-	mkdir -p /usr/local/include/showlib
+install: ${LIB} bins
+	mkdir -p ${INSTALL_BASE}/include/showlib
 	cp ${LIB_DIR}/*.h ${INSTALL_BASE}/include/showlib
 	cp -R include/* ${INSTALL_BASE}/include
 	cp ${LIB} ${INSTALL_BASE}/lib
-	cp Makefile-Base /usr/local/etc
+	cp Makefile-Base ${INSTALL_BASE}/etc
+	cp bin/BCrypt-Password ${INSTALL_BASE}/bin
 
 #======================================================================
 # Tests

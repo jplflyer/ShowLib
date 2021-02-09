@@ -17,6 +17,7 @@ SOURCES += \
     showlib/Router.cpp \
     showlib/StringUtils.cpp \
     showlib/StringVector.cpp \
+    src/BCrypt-Password.cpp \
     tests/TestJSON.cpp \
     tests/TestStrings.cpp \
     tests/main-test.cpp
