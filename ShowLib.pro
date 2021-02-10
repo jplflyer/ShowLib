@@ -23,6 +23,7 @@ SOURCES += \
     tests/main-test.cpp
 
 HEADERS += \
+    showlib/Base64.h \
     showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
     showlib/OptionHandler.h \

@@ -1,9 +1,13 @@
 #pragma once
 
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace ShowLib {
+
+std::pair<std::string, std::string> splitPair(const std::string &, const std::string & atStr);
+
 std::vector<std::string> split(const std::string &, const std::string & atStr);
 std::vector<std::string> splitWithParens(const std::string &, const std::string & atChar);
 

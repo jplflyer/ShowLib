@@ -86,16 +86,19 @@ bin/BCrypt-Password: ${OBJDIR}/BCrypt-Password.o ${LIB}
 	$(CXX) ${OBJDIR}/BCrypt-Password.o -L. -l${LIBNAME} ${LDFLAGS} -lbcrypt $(OUTPUT_OPTION)
 
 #======================================================================
-# Installation.
+# Installation. Note that cp -p retains file attributes from the
+# source file. In other words, the last modification time of the
+# destination files will be set to the last modification of the
+# source files.
 #======================================================================
 .PHONY: install
 install: ${LIB} bins
 	mkdir -p ${INSTALL_BASE}/include/showlib
-	cp ${LIB_DIR}/*.h ${INSTALL_BASE}/include/showlib
-	cp -R include/* ${INSTALL_BASE}/include
-	cp ${LIB} ${INSTALL_BASE}/lib
-	cp Makefile-Base ${INSTALL_BASE}/etc
-	cp bin/BCrypt-Password ${INSTALL_BASE}/bin
+	cp -p ${LIB_DIR}/*.h ${INSTALL_BASE}/include/showlib
+	cp -pR include/* ${INSTALL_BASE}/include
+	cp -p ${LIB} ${INSTALL_BASE}/lib
+	cp -p Makefile-Base ${INSTALL_BASE}/etc
+	cp -p bin/BCrypt-Password ${INSTALL_BASE}/bin
 
 #======================================================================
 # Tests

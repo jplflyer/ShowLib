@@ -11,6 +11,8 @@
 #include "Router.h"
 #include "RequestHandlerFactory.h"
 
+
+
 /**
  * Base class for anyone putting up a REST server. Uses Poco/Net/HTTPServer.
  */
@@ -26,7 +28,8 @@ private:
     Poco::UInt16 port = 8080;
     bool running = false;
 
-    void setReturn(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code);
+protected:
+    Router & getRouter() { return router; }
 
 public:
     //======================================================================
@@ -50,18 +53,19 @@ public:
     //======================================================================
     // Convenience methods to help individual calls.
     //======================================================================
+    static void setReturn(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code);
 
     /** Will return JSON with success = false and errorMessage */
-    void returnError(Poco::Net::HTTPServerResponse &, const std::string &errorMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
+    static void returnError(Poco::Net::HTTPServerResponse &, const std::string &errorMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
 
     /** Will return JSON with success = true and message. */
-    void returnSuccessMessage(Poco::Net::HTTPServerResponse &, const std::string &okMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+    static void returnSuccessMessage(Poco::Net::HTTPServerResponse &, const std::string &okMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
     /** Will return this JSON. */
-    void returnSuccessBody(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+    static void returnSuccessBody(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
     /** Will return this object. */
-    void returnSuccessMessage(Poco::Net::HTTPServerResponse &, const ShowLib::JSONSerializable &, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+    static void returnSuccessMessage(Poco::Net::HTTPServerResponse &, const ShowLib::JSONSerializable &, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
 };
 

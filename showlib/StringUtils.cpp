@@ -7,6 +7,24 @@
 using std::string;
 
 /**
+ * This splits the string into two at the first instances of atStr.
+ */
+std::pair<std::string, std::string> ShowLib::splitPair(const std::string &str, const std::string & atStr) {
+    std::pair<std::string, std::string> rv;
+    size_t pos = str.find(atStr);
+
+    if (pos == string::npos) {
+        rv.first = str;
+    }
+    else {
+        rv.first = str.substr(0, pos);
+        rv.second = str.substr(pos + 1);
+    }
+
+    return rv;
+}
+
+/**
  * Split a string into requisite parts.
  *
  * vector<string> vec = split("abc:def", ':') -- returns a vector split at the colon.

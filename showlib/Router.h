@@ -66,45 +66,74 @@
 #include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/Net/HTTPServerResponse.h>
 
+using Poco::Net::HTTPServerRequest;
+using Poco::Net::HTTPServerResponse;
+
+/**
+ * This defines what to do with one call, such as "GET /foo"
+ */
 class Route {
 public:
     typedef std::shared_ptr<Route> Pointer;
     typedef std::vector<Pointer> Vector;
-    typedef std::function<void(const Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &)> Callback;
+    typedef std::function<void(const HTTPServerRequest &, HTTPServerResponse &)> Callback;
 
     std::string method;
     std::string path;
     Callback callback;
+    bool requiresAuthorization = true;
 
     Route();
     Route(const std::string &m, const std::string &p, Route::Callback );
     bool matches(const std::string &m, const std::string &p) const;
 };
 
+/**
+ * This just wraps the collection of routes and dispatches calls
+ * according to the rules. Rules are evaluated in order, so when adding
+ * routes, add more specific rules first, as we only check an incoming route
+ * up to the length of the given path. For instance:
+ *
+ * 		/foo
+ * 		/foo/bar
+ *
+ * If the call is /foo/bar, but you've defined rules in the above order,
+ * it will match the wrong one.
+ */
 class Router: public Poco::Net::HTTPRequestHandler
 {
-private:
-    Route::Vector routes;
-
-    void notRecognized_JSON(Poco::Net::HTTPServerResponse &);
-    void notRecognized_HTML(Poco::Net::HTTPServerResponse &);
-
 public:
+    typedef std::function<bool(const HTTPServerRequest &, HTTPServerResponse &)> AuthCallback;
+
     Router();
 
-    void handleRequest(Poco::Net::HTTPServerRequest &, Poco::Net::HTTPServerResponse &);
+    void handleRequest(HTTPServerRequest &, HTTPServerResponse &);
 
-    void addRoute(const std::string &method, const std::string &path, Route::Callback callback);
+    Route::Pointer addRoute(const std::string &method, const std::string &path, Route::Callback callback);
+    void setAuthorization(AuthCallback cb) { authCallback = cb; }
+
+private:
+    Route::Vector routes;
+    AuthCallback authCallback = nullptr;
+
+    void notRecognized_JSON(HTTPServerResponse &);
+    void notRecognized_HTML(HTTPServerResponse &);
+
 };
 
-
+/**
+ * We use a shadow because the Poco::Net server expects these to be
+ * use-once. But Router is thread safe, and we don't need to keep
+ * destroying them. So the shadow gets created and destroyed willy-nilly,
+ * but they're cheap.
+ */
 class RouterShadow: public Poco::Net::HTTPRequestHandler {
 private:
     Router & router;
 
 public:
     RouterShadow(Router &r) : router(r) { }
-    void handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response) {
+    void handleRequest(HTTPServerRequest &request, HTTPServerResponse &response) {
         router.handleRequest(request, response);
     }
 };
