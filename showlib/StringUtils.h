@@ -19,4 +19,6 @@ std::string camelToLower(const std::string &);
 std::string firstUpper(const std::string &);
 
 long stol(const std::string &);
+
+bool endsWith(const std::string & str, const std::string & lookFor);
 }

@@ -127,3 +127,11 @@ std::string ShowLib::firstUpper(const std::string &str) {
 long ShowLib::stol(const std::string &str) {
     return str.length() > 0 ? std::stol(str) : 0;
 }
+
+/**
+ * Does str end with lookFor?
+ */
+bool ShowLib::endsWith(const string & str, const string & lookFor) {
+    if (lookFor.size() > str.size()) return false;
+    return std::equal(str.begin() + str.size() - lookFor.size(), str.end(), lookFor.begin());
+}
