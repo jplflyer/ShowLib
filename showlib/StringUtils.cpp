@@ -135,3 +135,35 @@ bool ShowLib::endsWith(const string & str, const string & lookFor) {
     if (lookFor.size() > str.size()) return false;
     return std::equal(str.begin() + str.size() - lookFor.size(), str.end(), lookFor.begin());
 }
+
+/**
+ * Does this string contain only digits?
+ */
+bool ShowLib::allDigits(const std::string &str) {
+    for (char c: str) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/** Left trim (in place) spaces. */
+std::string & ShowLib::trimLeft(std::string & str) {
+    return str;
+}
+
+/** Right trim (in place) spaces. */
+std::string & ShowLib::trimRight(std::string & str){
+    return str;
+}
+
+/** Trim (copy) spaces. */
+std::string ShowLib::trim(std::string str) {
+    return trimRight(trimLeft(str));
+}
+
+/** Trim (in place) spaces. */
+std::string & ShowLib::trimInPlace(std::string & str) {
+    return trimRight(trimLeft(str));
+}

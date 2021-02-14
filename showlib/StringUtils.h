@@ -18,7 +18,21 @@ std::string camelToLower(const std::string &);
 
 std::string firstUpper(const std::string &);
 
+bool endsWith(const std::string & str, const std::string & lookFor);
+bool allDigits(const std::string &);
+
 long stol(const std::string &);
 
-bool endsWith(const std::string & str, const std::string & lookFor);
+/** Left trim (in place) spaces. */
+std::string & trimLeft(std::string & str);
+
+/** Right trim (in place) spaces. */
+std::string & trimRight(std::string & str);
+
+/** Trim (copy) spaces. */
+std::string trim(std::string str);
+
+/** Trim (in place) spaces. */
+std::string & trimInPlace(std::string & str);
+
 }

@@ -89,8 +89,36 @@ RESTServer::returnSuccessBody(Poco::Net::HTTPServerResponse &response, const JSO
 
 /** Will return this object. */
 void
-RESTServer::returnSuccessMessage(Poco::Net::HTTPServerResponse &response, const ShowLib::JSONSerializable &obj, Poco::Net::HTTPResponse::HTTPStatus code) {
+RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const ShowLib::JSONSerializable &obj, Poco::Net::HTTPResponse::HTTPStatus code) {
     JSON json { JSON::object() };
     obj.toJSON(json);
+    setReturn(response, json, code);
+}
+
+/**
+ * Produces JSON:
+ * 		{
+ * 			"status": message,
+ * 			key: object-as-json
+ * 		}
+ */
+void
+RESTServer::returnSuccess(
+    Poco::Net::HTTPServerResponse &response,
+    const std::string &key,
+    const ShowLib::JSONSerializable &object,
+    const std::string &message,
+    Poco::Net::HTTPResponse::HTTPStatus code)
+{
+    JSON json { JSON::object() };
+    JSON objJSON { object.isArray() ? JSON::array() : JSON::object() };
+
+    object.toJSON(objJSON);
+
+    json[key] = objJSON;
+    if (message.length() > 0) {
+        json["status"] = message;
+    }
+
     setReturn(response, json, code);
 }

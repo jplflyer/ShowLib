@@ -24,6 +24,8 @@ public:
     std::string toString() const;
     std::string toString(int indent) const;
 
+    virtual bool isArray() const { return false; }
+
     // Various getters.
     static std::string stringValue(const JSON &json, const std::string &key);
     static int intValue(const JSON &json, const std::string &key, int defaultValue = 0);
@@ -48,6 +50,8 @@ class JSONSerializableVector: public std::vector<std::shared_ptr<ObjectType>>, p
 public:
     typedef std::shared_ptr<ObjectType> Pointer;
     typedef std::function<bool(Pointer)> Comparator;
+
+    bool isArray() const override { return true; }
 
     /**
      * Populate the vector from this JSON array.

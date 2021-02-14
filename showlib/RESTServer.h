@@ -38,9 +38,14 @@ public:
     RESTServer();
     virtual ~RESTServer();
 
-    RESTServer & addRoute(const std::string &method, const std::string &path, Route::Callback callback) {
-        router.addRoute(method, path, callback);
-        return *this;
+    Route::Pointer addRoute(const std::string &method, const std::string &path, Route::Callback callback) {
+        return router.addRoute(method, path, callback);
+    }
+
+    Route::Pointer addRoute(const std::string &method, const std::string &path, bool requiresAuth, Route::Callback callback) {
+        Route::Pointer route = router.addRoute(method, path, callback);
+        route->requiresAuthorization = requiresAuth;
+        return route;
     }
 
     RESTServer & setPort(Poco::UInt16 _port) { port = _port; return *this; }
@@ -51,7 +56,8 @@ public:
     void stop();
 
     //======================================================================
-    // Convenience methods to help individual calls.
+    // These are return methods so individual calls don't need to do this
+    // directly.
     //======================================================================
     static void setReturn(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code);
 
@@ -65,7 +71,21 @@ public:
     static void returnSuccessBody(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
     /** Will return this object. */
-    static void returnSuccessMessage(Poco::Net::HTTPServerResponse &, const ShowLib::JSONSerializable &, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+    static void returnSuccess(Poco::Net::HTTPServerResponse &, const ShowLib::JSONSerializable &, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+
+    /**
+     * Produces JSON:
+     * 		{
+     * 			"status": message,
+     * 			key: object-as-json
+     * 		}
+     */
+    static void returnSuccess(
+        Poco::Net::HTTPServerResponse &response,
+        const std::string &key,
+        const ShowLib::JSONSerializable &object,
+        const std::string &message,
+        Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
 };
 

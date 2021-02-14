@@ -9,7 +9,7 @@ using std::string;
  */
 JSON
 JSONSerializable::getJSON() const {
-    JSON json;
+    JSON json { isArray() ? JSON::array() : JSON::object() };
 
     toJSON(json);
 

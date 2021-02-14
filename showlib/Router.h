@@ -76,7 +76,7 @@ class Route {
 public:
     typedef std::shared_ptr<Route> Pointer;
     typedef std::vector<Pointer> Vector;
-    typedef std::function<void(const HTTPServerRequest &, HTTPServerResponse &)> Callback;
+    typedef std::function<void(HTTPServerRequest &, HTTPServerResponse &)> Callback;
 
     std::string method;
     std::string path;

@@ -20,6 +20,7 @@ SOURCES += \
     src/BCrypt-Password.cpp \
     tests/TestJSON.cpp \
     tests/TestStrings.cpp \
+    tests/Whatever.cpp \
     tests/main-test.cpp
 
 HEADERS += \
