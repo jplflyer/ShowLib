@@ -60,9 +60,6 @@ echo:
 	@echo LIB_OBJ is ${LIB_OBJ}
 	@echo VPATH = ${VPATH}
 
-ifneq (,$(wildcard ${DEPDIR}/*))
-include .d/*
-endif
 
 #======================================================================
 # Making the library.
@@ -92,22 +89,35 @@ bin/BCrypt-Password: ${OBJDIR}/BCrypt-Password.o ${LIB}
 # source files.
 #======================================================================
 .PHONY: install
-install: ${LIB} bins
-	mkdir -p ${INSTALL_BASE}/include/showlib
+install: ${LIB} install_includes ${INSTALL_BASE}/etc/Makefile-Base ${INSTALL_BASE}/bin/BCrypt-Password
+	cp -p ${LIB} ${INSTALL_BASE}/lib
+
+.PHONY: install_includes
+install_includes:
+	@mkdir -p ${INSTALL_BASE}/include/showlib
 	cp -p ${LIB_DIR}/*.h ${INSTALL_BASE}/include/showlib
 	cp -pR include/* ${INSTALL_BASE}/include
-	cp -p ${LIB} ${INSTALL_BASE}/lib
-	cp -p Makefile-Base ${INSTALL_BASE}/etc
-	cp -p bin/BCrypt-Password ${INSTALL_BASE}/bin
+
+${INSTALL_BASE}/etc/Makefile-Base: Makefile-Base
+	cp Makefile-Base ${INSTALL_BASE}/etc
+
+${INSTALL_BASE}/bin/BCrypt-Password: bin/BCrypt-Password
+	cp bin/BCrypt-Password ${INSTALL_BASE}/bin
 
 #======================================================================
 # Tests
 #======================================================================
 
-tests: ${TEST_BIN} ${TEST_BIN}/TestJSON ${TEST_BIN}/TestStrings
+tests: ${TEST_BIN}
+tests: ${TEST_BIN}/RunSSHConfig
+tests: ${TEST_BIN}/TestJSON
+tests: ${TEST_BIN}/TestStrings
 
 ${TEST_BIN}:
 	mkdir -p ${TEST_BIN}
+
+${TEST_BIN}/RunSSHConfig: ${OBJDIR}/RunSSHConfig.o ${LIB}
+	$(CXX) ${OBJDIR}/RunSSHConfig.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
 
 ${TEST_BIN}/TestJSON: ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o ${LIB}
 	$(CXX) ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)

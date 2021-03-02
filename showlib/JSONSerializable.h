@@ -79,6 +79,12 @@ public:
         return json;
     }
 
+    void addAll(JSONSerializableVector<ObjectType> &vec) {
+        for (Pointer & ptr: vec) {
+            this->push_back(ptr);
+        }
+    }
+
     /**
      * Remove all instances that match the comparator -- generally a lambda
      * that takes a shared_ptr<ObjectType>.

@@ -5,6 +5,7 @@ CONFIG += staticlib
 
 CONFIG += c++17
 CONFIG += sdk_no_version_chec
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 
 INCLUDEPATH += include/ /usr/local/include
 
@@ -15,9 +16,12 @@ SOURCES += \
     showlib/RESTServer.cpp \
     showlib/RequestHandlerFactory.cpp \
     showlib/Router.cpp \
+    showlib/SSHConfiguration.cpp \
     showlib/StringUtils.cpp \
     showlib/StringVector.cpp \
+    showlib/URI.cpp \
     src/BCrypt-Password.cpp \
+    tests/RunSSHConfig.cpp \
     tests/TestJSON.cpp \
     tests/TestStrings.cpp \
     tests/Whatever.cpp \
@@ -32,8 +36,10 @@ HEADERS += \
     showlib/Ranges.h \
     showlib/RequestHandlerFactory.h \
     showlib/Router.h \
+    showlib/SSHConfiguration.h \
     showlib/StringUtils.h \
     showlib/StringVector.h \
+    showlib/URI.h \
     tests/TestJSON.h \
     tests/TestStrings.h \
     tests/UnitTesting.h \

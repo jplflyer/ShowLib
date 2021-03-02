@@ -10,6 +10,7 @@ class TestStrings: public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(TestStrings);
     CPPUNIT_TEST(testBasic);
+    CPPUNIT_TEST(testWhitespace);
     CPPUNIT_TEST(testLonger);
     CPPUNIT_TEST(testParens);
     CPPUNIT_TEST(testConversion);
@@ -21,6 +22,7 @@ class TestStrings: public CppUnit::TestFixture
 
 public:
     void testBasic();
+    void testWhitespace();
     void testLonger();
     void testParens();
     void testConversion();

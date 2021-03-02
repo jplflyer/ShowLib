@@ -24,6 +24,30 @@ TestStrings::testBasic() {
 }
 
 /**
+ * Test splitAtWhitespace().
+ */
+void
+TestStrings::testWhitespace() {
+    string start = "This";
+    string end = "has many spaces";
+    string str = start + " " + end;
+
+    auto pair = splitAtWhitespace(str);
+    CPPUNIT_ASSERT_GREATER(static_cast<size_t>(0), pair.first.length());
+    CPPUNIT_ASSERT_GREATER(static_cast<size_t>(0), pair.second.length());
+
+    CPPUNIT_ASSERT_EQUAL(start, pair.first);
+    CPPUNIT_ASSERT_EQUAL(end, pair.second);
+
+    pair = splitAtWhitespace(start);
+    CPPUNIT_ASSERT_GREATER(static_cast<size_t>(0), pair.first.length());
+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), pair.second.length());
+    CPPUNIT_ASSERT_EQUAL(start, pair.first);
+    CPPUNIT_ASSERT_EQUAL(string{""}, pair.second);
+
+}
+
+/**
  * This is identical to testBasic except we use a multi-character delimeter.
  */
 void

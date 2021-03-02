@@ -25,6 +25,24 @@ std::pair<std::string, std::string> ShowLib::splitPair(const std::string &str, c
 }
 
 /**
+ * This splits the string at the first whitespace.
+ */
+std::pair<std::string, std::string> ShowLib::splitAtWhitespace(const std::string &str) {
+    std::pair<std::string, std::string> rv;
+    auto pos = std::find_if(str.begin(), str.end(), [](char c){ return isspace(c); });
+
+    if (pos == str.end()) {
+        rv.first = str;
+    }
+    else {
+        rv.first = string { str.begin(), pos };
+        rv.second = string { ++pos, str.end() };
+    }
+
+    return rv;
+}
+
+/**
  * Split a string into requisite parts.
  *
  * vector<string> vec = split("abc:def", ':') -- returns a vector split at the colon.
@@ -124,6 +142,15 @@ std::string ShowLib::firstUpper(const std::string &str) {
     return copy;
 }
 
+/**
+ * This returns a string with the first character forced lower case.
+ */
+std::string ShowLib::firstLower(const std::string &str) {
+    string copy = str;
+    std::transform(str.begin(), str.begin() + 1, copy.begin(), ::tolower);
+    return copy;
+}
+
 long ShowLib::stol(const std::string &str) {
     return str.length() > 0 ? std::stol(str) : 0;
 }
@@ -134,6 +161,11 @@ long ShowLib::stol(const std::string &str) {
 bool ShowLib::endsWith(const string & str, const string & lookFor) {
     if (lookFor.size() > str.size()) return false;
     return std::equal(str.begin() + str.size() - lookFor.size(), str.end(), lookFor.begin());
+}
+
+bool ShowLib::startsWith(const string & str, const string & lookFor) {
+    if (lookFor.size() > str.size()) return false;
+    return std::equal(str.begin(), str.begin() + lookFor.size(), lookFor.begin());
 }
 
 /**
@@ -150,11 +182,19 @@ bool ShowLib::allDigits(const std::string &str) {
 
 /** Left trim (in place) spaces. */
 std::string & ShowLib::trimLeft(std::string & str) {
+    str.erase(str.begin(), std::find_if(str.begin(), str.end(), [](int ch) {
+            return !std::isspace(ch);
+        }));
+
     return str;
 }
 
 /** Right trim (in place) spaces. */
-std::string & ShowLib::trimRight(std::string & str){
+std::string & ShowLib::trimRight(std::string & str) {
+    str.erase(std::find_if(str.rbegin(), str.rend(), [](int ch) {
+        return !std::isspace(ch);
+    }).base(), str.end());
+
     return str;
 }
 

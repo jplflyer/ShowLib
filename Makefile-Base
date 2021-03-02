@@ -22,13 +22,20 @@ BINDIR := bin${MACAPPEND}
 # Be careful with CXX flags and use = instead of := so that INCLUDES gets late expansion.
 INCLUDES := -I/usr/local/include -I${SRCDIR}
 CXXFLAGS = ${INCLUDES} --std=c++17 -g -Wno-unused-local-typedefs -Wno-deprecated-declarations ${AUTO_ARGUMENT}
-LDFLAGS := -L/usr/local/lib
+LDFLAGS += -L/usr/local/lib
 
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
 
 COMPILE.c = $(CC) $(DEPFLAGS) ${INCLUDES} $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
 COMPILE.cc = $(CXX) $(DEPFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
 POSTCOMPILE = @mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
+
+#======================================================================
+# If we have files in the DEPDIR, include them.
+#======================================================================
+ifneq (,$(wildcard ${DEPDIR}/*))
+include .d/*
+endif
 
 #======================================================================
 # Build the directories needed.
