@@ -207,3 +207,43 @@ std::string ShowLib::trim(std::string str) {
 std::string & ShowLib::trimInPlace(std::string & str) {
     return trimRight(trimLeft(str));
 }
+
+std::string ShowLib::substringAfter(const std::string &str, const std::string &after) {
+    size_t pos = str.find(after);
+    if (pos == string::npos) {
+        return str;
+    }
+    return str.substr(pos + after.length());
+}
+
+std::string ShowLib::substringAfterLast(const std::string &str, const std::string &after) {
+    size_t pos = str.rfind(after);
+    if (pos == string::npos) {
+        return str;
+    }
+    return str.substr(pos + after.length());
+}
+
+
+std::string ShowLib::substringUntil(const std::string &str, const std::string &upUntil) {
+    size_t pos = str.find(upUntil);
+    if (pos == string::npos) {
+        return str;
+    }
+    return str.substr(0, pos);
+}
+
+std::string ShowLib::substringUntilLast(const std::string &str, const std::string &upUntil) {
+    size_t pos = str.rfind(upUntil);
+    if (pos == string::npos) {
+        return str;
+    }
+    return str.substr(0, pos);
+}
+
+std::string ShowLib::trimTail(const std::string &str, const std::string &tail) {
+    if (!endsWith(str, tail)) {
+        return str;
+    }
+    return str.substr(0, str.size() - tail.size());
+}

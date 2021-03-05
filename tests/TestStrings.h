@@ -18,6 +18,9 @@ class TestStrings: public CppUnit::TestFixture
     CPPUNIT_TEST(testFirstUpper);
     CPPUNIT_TEST(testRemove);
     CPPUNIT_TEST(testAdd);
+    CPPUNIT_TEST(testSubstringAfter);
+    CPPUNIT_TEST(testSubstringUntil);
+    CPPUNIT_TEST(testTrimTail);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -30,5 +33,8 @@ public:
     void testFirstUpper();
     void testRemove();
     void testAdd();
+    void testSubstringAfter();
+    void testSubstringUntil();
+    void testTrimTail();
 };
 

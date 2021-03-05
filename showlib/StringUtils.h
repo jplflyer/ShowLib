@@ -6,37 +6,54 @@
 
 namespace ShowLib {
 
-std::pair<std::string, std::string> splitPair(const std::string &, const std::string & atStr);
-std::pair<std::string, std::string> splitAtWhitespace(const std::string &);
+    std::pair<std::string, std::string> splitPair(const std::string &, const std::string & atStr);
+    std::pair<std::string, std::string> splitAtWhitespace(const std::string &);
 
-std::vector<std::string> split(const std::string &, const std::string & atStr);
-std::vector<std::string> splitWithParens(const std::string &, const std::string & atChar);
+    std::vector<std::string> split(const std::string &, const std::string & atStr);
+    std::vector<std::string> splitWithParens(const std::string &, const std::string & atChar);
 
-std::string toLower(const std::string &);
-std::string toUpper(const std::string &);
+    std::string toLower(const std::string &);
+    std::string toUpper(const std::string &);
 
-std::string camelToLower(const std::string &);
+    std::string camelToLower(const std::string &);
 
-std::string firstUpper(const std::string &);
-std::string firstLower(const std::string &);
+    std::string firstUpper(const std::string &);
+    std::string firstLower(const std::string &);
 
-bool startsWith(const std::string & str, const std::string & lookFor);
-bool endsWith(const std::string & str, const std::string & lookFor);
+    bool startsWith(const std::string & str, const std::string & lookFor);
+    bool endsWith(const std::string & str, const std::string & lookFor);
 
-bool allDigits(const std::string &);
+    bool allDigits(const std::string &);
 
-long stol(const std::string &);
+    long stol(const std::string &);
 
-/** Left trim (in place) spaces. */
-std::string & trimLeft(std::string & str);
+    /** Left trim (in place) spaces. */
+    std::string & trimLeft(std::string & str);
 
-/** Right trim (in place) spaces. */
-std::string & trimRight(std::string & str);
+    /** Right trim (in place) spaces. */
+    std::string & trimRight(std::string & str);
 
-/** Trim (copy) spaces. */
-std::string trim(std::string str);
+    /** Trim (copy) spaces. */
+    std::string trim(std::string str);
 
-/** Trim (in place) spaces. */
-std::string & trimInPlace(std::string & str);
+    /** Trim (in place) spaces. */
+    std::string & trimInPlace(std::string & str);
 
+    /**
+     * This returns a substring of str after the first occurence of after.
+     * If after is not contained in str, then it returns all of str.
+     */
+    std::string substringAfter(const std::string &str, const std::string &after);
+
+    /**
+     * This returns a substring of str after the last occurence of after.
+     * If after is not contained in str, then it returns all of str.
+     */
+    std::string substringAfterLast(const std::string &str, const std::string &after);
+
+    std::string substringUntil(const std::string &str, const std::string &upUntil);
+    std::string substringUntilLast(const std::string &str, const std::string &upUntil);
+
+    /** If this string ends in this tail, trim it. For files, this removes a particular extension. */
+    std::string trimTail(const std::string &str, const std::string &tail);
 }

@@ -1,5 +1,7 @@
-#include "TestStrings.h"
 #include <showlib/StringVector.h>
+#include <showlib/StringUtils.h>
+
+#include "TestStrings.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestStrings);
 
@@ -161,5 +163,50 @@ TestStrings::testAdd() {
 
     vec.remove("2");
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected size", 2, vec.size());
-    cout << "Vec: " << vec << endl;
+}
+
+/**
+ * Test the two substringAfter methods.
+ */
+void
+TestStrings::testSubstringAfter() {
+    string front { "abc" };
+    string middle { "def" };
+    string back { "ghi" };
+
+    string first = substringAfter(front + "//" + middle + "//" + back, "//");
+    string second = substringAfterLast(front + "//" + middle + "//" + back, "//");
+
+    CPPUNIT_ASSERT_EQUAL(middle + "//" + back, first);
+    CPPUNIT_ASSERT_EQUAL(back, second);
+}
+
+
+
+/**
+ * Test the two substringUntil methods.
+ */
+void
+TestStrings::testSubstringUntil() {
+    string front { "abc" };
+    string middle { "def" };
+    string back { "ghi" };
+
+    string first = substringUntil(front + "//" + middle + "//" + back, "//");
+    string second = substringUntilLast(front + "//" + middle + "//" + back, "//");
+
+    CPPUNIT_ASSERT_EQUAL(front, first);
+    CPPUNIT_ASSERT_EQUAL(front + "//" + middle, second);
+}
+
+void
+TestStrings::testTrimTail() {
+    string front { "my.file.base" };
+    string back  { ".git" };
+
+    string first = trimTail(front + back, back);
+    string second = trimTail(front + back, ".foo");
+
+    CPPUNIT_ASSERT_EQUAL(front, first);
+    CPPUNIT_ASSERT_EQUAL(front + back, second);
 }
