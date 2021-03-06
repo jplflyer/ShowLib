@@ -31,6 +31,7 @@ HEADERS += \
     showlib/Base64.h \
     showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
+    showlib/NumericOperators.h \
     showlib/OptionHandler.h \
     showlib/RESTServer.h \
     showlib/Ranges.h \
