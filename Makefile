@@ -117,7 +117,7 @@ ${TEST_BIN}:
 	mkdir -p ${TEST_BIN}
 
 ${TEST_BIN}/RunSSHConfig: ${OBJDIR}/RunSSHConfig.o ${LIB}
-	$(CXX) ${OBJDIR}/RunSSHConfig.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
+	$(CXX) ${OBJDIR}/RunSSHConfig.o -L. ${LDFLAGS} -lssl -lcrypto -l${LIBNAME} $(OUTPUT_OPTION)
 
 ${TEST_BIN}/TestJSON: ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o ${LIB}
 	$(CXX) ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
