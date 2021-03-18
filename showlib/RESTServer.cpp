@@ -1,6 +1,10 @@
+#include "StringVector.h"
 #include "RESTServer.h"
 
 using std::string;
+
+using namespace ShowLib;
+using ArgumentPair = ArgumentVector::ArgumentPair;
 
 RESTServer::RESTServer()
     : params(new Poco::Net::HTTPServerParams())
@@ -149,3 +153,58 @@ RESTServer::returnSuccess(
 
     setReturn(response, json, code);
 }
+
+ShowLib::ArgumentVector
+RESTServer::getArguments(Poco::Net::HTTPServerRequest &request) {
+    ShowLib::ArgumentVector vec;
+    string path = request.getURI();
+    size_t startOfArgs = path.find("?");
+
+    if (startOfArgs != string::npos) {
+        ShowLib::StringVector strVec;
+        strVec.tokenize(path.substr(startOfArgs + 1), '&');
+
+        for (const std::shared_ptr<string> &arg: strVec) {
+            ShowLib::StringVector parts;
+            parts.tokenize(*arg, '=');
+            vec.append(*parts[0],  (parts.size() > 1) ? urlDecode(*parts[1]) : "");
+        }
+    }
+
+    return vec;
+}
+
+/**
+ * Perform URL decoding of this string.
+ */
+std::string
+RESTServer::urlDecode(const std::string &text)
+{
+    string output;
+
+    for (auto i = text.begin(), nd = text.end(); i < nd; ++i)
+    {
+        const char c = ( *i );
+
+        switch(c)
+        {
+            case '%':
+                if (i + 2 < nd) {
+                    char hs[]{ i[1], i[2], 0 };
+                    output += static_cast<char>(strtol(hs, nullptr, 16));
+                    i += 2;
+                }
+                break;
+
+            case '+':
+                output += ' ';
+                break;
+
+            default:
+                output += c;
+        }
+    }
+
+    return output;
+}
+

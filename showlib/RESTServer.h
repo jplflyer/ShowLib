@@ -7,11 +7,10 @@
 
 #include <nlohmann/json.hpp>
 
+#include "ArgumentVector.h"
 #include "JSONSerializable.h"
 #include "Router.h"
 #include "RequestHandlerFactory.h"
-
-
 
 /**
  * Base class for anyone putting up a REST server. Uses Poco/Net/HTTPServer.
@@ -102,5 +101,8 @@ public:
             const std::string &body,
             const std::string &contentType,
             Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+
+    static ShowLib::ArgumentVector getArguments(Poco::Net::HTTPServerRequest &request);
+    static std::string urlDecode(const std::string &input);
 };
 

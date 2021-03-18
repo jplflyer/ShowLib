@@ -10,6 +10,7 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 INCLUDEPATH += include/ /usr/local/include
 
 SOURCES += \
+    showlib/ArgumentVector.cpp \
     showlib/FileUtilities.cpp \
     showlib/JSONSerializable.cpp \
     showlib/OptionHandler.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
     tests/main-test.cpp
 
 HEADERS += \
+    showlib/ArgumentVector.h \
     showlib/Base64.h \
     showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
