@@ -59,7 +59,7 @@ public:
     // These are return methods so individual calls don't need to do this
     // directly.
     //======================================================================
-    static void setReturn(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code);
+    static void setReturn(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
     /** Will return JSON with success = false and errorMessage */
     static void returnError(Poco::Net::HTTPServerResponse &, const std::string &errorMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
@@ -87,5 +87,20 @@ public:
         const std::string &message,
         Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
+    static void returnHTML(
+            Poco::Net::HTTPServerResponse &response,
+            const std::string &body,
+            Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+
+    static void returnPlainText(
+            Poco::Net::HTTPServerResponse &response,
+            const std::string &body,
+            Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+
+    static void returnWithType(
+            Poco::Net::HTTPServerResponse &response,
+            const std::string &body,
+            const std::string &contentType,
+            Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 };
 

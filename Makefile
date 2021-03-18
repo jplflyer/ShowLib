@@ -22,6 +22,7 @@ LIB_DIR=showlib
 
 VPATH := ${SRCDIR}:${LIB_DIR}:${TEST_SRC}
 INCLUDES += -I./include -I.
+CXXFLAGS += -O3
 CXXFLAGS += ${LOG4CPP_USE_FOUR_ARG_CONSTRUCTOR}
 LDFLAGS += -L. -L./lib -lz -llog4cplus -lcppunit -lpthread -lstdc++ -lm -ldl
 

@@ -49,15 +49,42 @@ RESTServer::stop() {
 void
 RESTServer::setReturn(Poco::Net::HTTPServerResponse &response, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code) {
     string body = json.dump(2) + "\n";
+    returnWithType(response, body, "text/json", code);
+}
 
-    response.setContentType("text/json");
+/**
+ * Return HTML.
+ */
+void
+RESTServer::returnHTML(Poco::Net::HTTPServerResponse &response, const string &body, Poco::Net::HTTPResponse::HTTPStatus code) {
+    returnWithType(response, body, "text/html", code);
+}
+
+/**
+ * Return text.
+ */
+void
+RESTServer::returnPlainText(Poco::Net::HTTPServerResponse &response, const string &body, Poco::Net::HTTPResponse::HTTPStatus code) {
+    returnWithType(response, body, "text/plain", code);
+}
+
+/**
+ * Return random JSON.
+ */
+void
+RESTServer::returnWithType(
+    Poco::Net::HTTPServerResponse &response,
+    const string &body,
+    const string &contentType,
+    Poco::Net::HTTPResponse::HTTPStatus code)
+{
+    response.setContentType(contentType);
     response.setContentLength(body.length());
     response.setStatus(code);
 
     std::ostream & str = response.send();
     str << body;
 }
-
 
 /**
  * Will return JSON with success = false and errorMessage
