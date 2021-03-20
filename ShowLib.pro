@@ -25,6 +25,7 @@ SOURCES += \
     tests/RunSSHConfig.cpp \
     tests/TestJSON.cpp \
     tests/TestStrings.cpp \
+    tests/TestVectorUtilities.cpp \
     tests/Whatever.cpp \
     tests/main-test.cpp
 
@@ -43,8 +44,10 @@ HEADERS += \
     showlib/StringUtils.h \
     showlib/StringVector.h \
     showlib/URI.h \
+    showlib/VectorUtilities.h \
     tests/TestJSON.h \
     tests/TestStrings.h \
+    tests/TestVectorUtilities.h \
     tests/UnitTesting.h \
     tests/main-test.h
 

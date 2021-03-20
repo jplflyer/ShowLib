@@ -113,6 +113,7 @@ tests: ${TEST_BIN}
 tests: ${TEST_BIN}/RunSSHConfig
 tests: ${TEST_BIN}/TestJSON
 tests: ${TEST_BIN}/TestStrings
+tests: ${TEST_BIN}/TestVectorUtilities
 
 ${TEST_BIN}:
 	mkdir -p ${TEST_BIN}
@@ -125,3 +126,6 @@ ${TEST_BIN}/TestJSON: ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o ${LIB}
 
 ${TEST_BIN}/TestStrings: ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o ${LIB}
 	$(CXX) ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
+
+${TEST_BIN}/TestVectorUtilities: ${OBJDIR}/TestVectorUtilities.o ${OBJDIR}/main-test.o ${LIB}
+	$(CXX) ${OBJDIR}/TestVectorUtilities.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)

@@ -9,6 +9,8 @@
 #include <cppunit/TestAssert.h>
 #include <cppunit/SourceLine.h>
 
+extern std::string TEST_NAME;
+
 CPPUNIT_NS_BEGIN
 
 template <class T>
