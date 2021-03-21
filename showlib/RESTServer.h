@@ -64,10 +64,12 @@ public:
     static void returnError(Poco::Net::HTTPServerResponse &, const std::string &errorMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_BAD_REQUEST);
 
     /** Will return JSON with success = true and message. */
-    static void returnSuccessMessage(Poco::Net::HTTPServerResponse &, const std::string &okMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+    static void returnSuccess(Poco::Net::HTTPServerResponse &, const std::string &okMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+
+    static void returnSuccess(Poco::Net::HTTPServerResponse &, const char * okMessage, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
     /** Will return this JSON. */
-    static void returnSuccessBody(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
+    static void returnSuccess(Poco::Net::HTTPServerResponse &, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);
 
     /** Will return this object. */
     static void returnSuccess(Poco::Net::HTTPServerResponse &, const ShowLib::JSONSerializable &, Poco::Net::HTTPResponse::HTTPStatus code = Poco::Net::HTTPResponse::HTTP_OK);

@@ -104,7 +104,17 @@ RESTServer::returnError(Poco::Net::HTTPServerResponse &response, const std::stri
 
 /** Will return JSON with success = true and message. */
 void
-RESTServer::returnSuccessMessage(Poco::Net::HTTPServerResponse &response, const std::string &okMessage, Poco::Net::HTTPResponse::HTTPStatus code) {
+RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const std::string &okMessage, Poco::Net::HTTPResponse::HTTPStatus code) {
+    JSON json { JSON::object() };
+
+    json["success"] = true;
+    json["message"] = okMessage;
+    setReturn(response, json, code);
+}
+
+/** Will return JSON with success = true and message. */
+void
+RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const char * okMessage, Poco::Net::HTTPResponse::HTTPStatus code) {
     JSON json { JSON::object() };
 
     json["success"] = true;
@@ -114,7 +124,7 @@ RESTServer::returnSuccessMessage(Poco::Net::HTTPServerResponse &response, const 
 
 /** Will return this JSON. */
 void
-RESTServer::returnSuccessBody(Poco::Net::HTTPServerResponse &response, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code) {
+RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const JSON &json, Poco::Net::HTTPResponse::HTTPStatus code) {
     setReturn(response, json, code);
 }
 
