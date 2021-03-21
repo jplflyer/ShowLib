@@ -29,7 +29,6 @@ TestVectorUtilities::testRemoveIf()
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected initial size", 5, vec.size());
     eraseIf(vec, [](int & it) { return it == 3; } );
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected final size", 4, vec.size());
-
 }
 
 /**
@@ -56,4 +55,16 @@ TestVectorUtilities::testWeakPtrs()
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected initial size", 5, vec.size());
     removeDeadLinks(vec);
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected final size", 4, vec.size());
+}
+
+void
+TestVectorUtilities::testIndexOf() {
+    vector<int> vec { 1, 2, 3, 4, 5 };
+
+    size_t foundIndex = indexOf(vec, [](int value) { return value == 3; });
+    size_t notFoundIndex = indexOf(vec, [](int value) { return value == -3; });
+
+
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected found index", 2, foundIndex);
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected not-found index", SIZE_T_MAX, notFoundIndex);
 }

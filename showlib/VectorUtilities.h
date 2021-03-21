@@ -25,4 +25,20 @@ void removeDeadLinks(std::vector<std::weak_ptr<T>> & vec) {
     eraseIf(vec, [](auto it){ return it.expired(); } );
 }
 
+/**
+ * Return the index for the first object that matches the predicate.
+ * Returns a sane integer if found, SIZE_T_MAX if not found.
+ */
+template <typename T, class UnaryPredicate>
+size_t indexOf(std::vector<T> & vec, UnaryPredicate f) {
+    int count = vec.size();
+    for (int index = 0; index < count; ++index) {
+        if (f(vec[index])) {
+            return index;
+        }
+    }
+
+    return SIZE_T_MAX;
+}
+
 }
