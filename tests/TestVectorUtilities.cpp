@@ -22,7 +22,7 @@ TestVectorUtilities::TestVectorUtilities()
  * Test removeIf.
  */
 void
-TestVectorUtilities::testRemoveIf()
+TestVectorUtilities::testEraseIf()
 {
     vector<int> vec { 1, 2, 3, 4, 5 };
 
@@ -67,4 +67,23 @@ TestVectorUtilities::testIndexOf() {
 
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected found index", 2, foundIndex);
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected not-found index", SIZE_T_MAX, notFoundIndex);
+}
+
+/**
+ * addIfNot() can be used for unique adds.
+ */
+void
+TestVectorUtilities::testAddIfNot() {
+    vector<int> vec { 1, 2, 3, 4, 5 };
+    bool rv;
+
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected initial size", 5, vec.size());
+
+    rv = addIfNot(vec, 3, [](int value){ return value == 3; } );
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Expected no insertion", false, rv);
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Expected no insertion", 5, vec.size());
+
+    rv = addIfNot(vec, 3, [](int value){ return value == 100; } );
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Expected insertion", true, rv);
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Expected insertion", 6, vec.size());
 }

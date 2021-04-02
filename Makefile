@@ -24,6 +24,7 @@ VPATH := ${SRCDIR}:${LIB_DIR}:${TEST_SRC}
 INCLUDES += -I./include -I.
 CXXFLAGS += -O3
 CXXFLAGS += ${LOG4CPP_USE_FOUR_ARG_CONSTRUCTOR}
+LDFLAGS += -L/usr/local/opt/openssl/lib
 LDFLAGS += -L. -L./lib -lz -llog4cplus -lcppunit -lpthread -lstdc++ -lm -ldl
 
 LIB_NOSORT := $(wildcard ${LIB_DIR}/*.cpp)
