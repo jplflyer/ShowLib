@@ -9,8 +9,8 @@
 #======================================================================
 
 # This needs to be above the include, as he has targets.
-.PHONY: all
-all: directories bin lib bins
+.PHONY: all makelib
+all: directories bin makelib bins
 
 # We include a standard base with lots of boilerplate.
 include Makefile-Base
@@ -66,6 +66,9 @@ echo:
 #======================================================================
 # Making the library.
 #======================================================================
+makelib:
+	@$(MAKE) -j4 --output-sync=target --no-print-directory lib
+
 lib: ${LIB}
 
 ${LIB}: ${LIB_OBJ}
