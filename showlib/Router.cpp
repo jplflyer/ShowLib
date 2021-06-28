@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -101,6 +102,7 @@ void Router::help_JSON(HTTPServerResponse &response) {
         JSON routeJSON = JSON::object();
         routeJSON["method"] = route->method;
         routeJSON["path"] = route->path;
+        routeJSON["description"] = route->description;
         paths.push_back(routeJSON);
     }
 
@@ -117,8 +119,15 @@ void Router::help_Text(HTTPServerResponse &response) {
     std::ostringstream oStr;
 
     oStr << "We recognize the following routes:" << endl << endl;
+    int longest = 0;
     for (const Route::Pointer &route: routes) {
-        oStr << "	" << route->method << "  " << route->path << endl;
+        if (route->path.length() > longest) {
+            longest = route->path.length();
+        }
+    }
+    for (const Route::Pointer &route: routes) {
+        cout << "Descr: " << route->description << endl;
+        oStr << "	" << route->method << "  " << std::setw(longest) << std::left << route->path << " " << route->description << endl;
     }
 
     oStr << endl << "A curl example:" << endl
@@ -143,7 +152,10 @@ void Router::help_HTML(HTTPServerResponse &response) {
             ;
 
     for (const Route::Pointer &route: routes) {
-        oStr << "		<tr><td>" << route->method << "</td><td>" << route->path << "</td></tr>" << endl;
+        oStr << "		<tr><td>" << route->method
+             << "</td><td>" << route->path
+             << "</td><td>" << route->description
+             << "</td></tr>" << endl;
     }
 
     oStr << "	</table>" << endl << endl
@@ -158,7 +170,15 @@ void Router::help_HTML(HTTPServerResponse &response) {
  * Add a route.
  */
 Route::Pointer Router::addRoute(const std::string &method, const std::string &path, Route::Callback callback) {
-    Route::Pointer route = std::make_shared<Route>(method, path, callback);
+    return addRoute(method, path, "", callback);
+}
+
+/**
+ * Add a route.
+ */
+Route::Pointer Router::addRoute(const std::string &method, const std::string &path, const std::string &descr, Route::Callback callback)
+{
+    Route::Pointer route = std::make_shared<Route>( method, path, descr, callback );
 
     routes.push_back(route);
     return route;
@@ -167,8 +187,8 @@ Route::Pointer Router::addRoute(const std::string &method, const std::string &pa
 /**
  * Constructor.
  */
-Route::Route(const std::string &m, const std::string &p, Route::Callback c)
-    : method(toUpper(m)), path(toLower(p)), callback(c)
+Route::Route(const std::string &m, const std::string &p, const std::string &d, Route::Callback c)
+    : method(toUpper(m)), path(toLower(p)), description(d), callback(c)
 {
 }
 

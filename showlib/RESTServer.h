@@ -38,11 +38,17 @@ public:
     virtual ~RESTServer();
 
     Route::Pointer addRoute(const std::string &method, const std::string &path, Route::Callback callback) {
-        return router.addRoute(method, path, callback);
+        Route::Pointer route = router.addRoute(method, path, "", callback);
+        return route;
     }
 
-    Route::Pointer addRoute(const std::string &method, const std::string &path, bool requiresAuth, Route::Callback callback) {
-        Route::Pointer route = router.addRoute(method, path, callback);
+    Route::Pointer addRoute(const std::string &method, const std::string &path, const std::string &descr, Route::Callback callback) {
+        Route::Pointer route = router.addRoute(method, path, descr, callback);
+        return route;
+    }
+
+    Route::Pointer addRoute(const std::string &method, const std::string &path, const std::string &descr, bool requiresAuth, Route::Callback callback) {
+        Route::Pointer route = router.addRoute(method, path, descr, callback);
         route->requiresAuthorization = requiresAuth;
         return route;
     }

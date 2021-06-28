@@ -80,11 +80,12 @@ public:
 
     std::string method;
     std::string path;
+    std::string description;
     Callback callback;
     bool requiresAuthorization = true;
 
     Route();
-    Route(const std::string &m, const std::string &p, Route::Callback );
+    Route(const std::string &m, const std::string &p, const std::string &d, Route::Callback );
     bool matches(const std::string &m, const std::string &p) const;
 };
 
@@ -111,6 +112,7 @@ public:
     void handleRequest(HTTPServerRequest &, HTTPServerResponse &);
 
     Route::Pointer addRoute(const std::string &method, const std::string &path, Route::Callback callback);
+    Route::Pointer addRoute(const std::string &method, const std::string &path, const std::string &descr, Route::Callback callback);
     void setAuthorization(AuthCallback cb) { authCallback = cb; }
 
 private:
