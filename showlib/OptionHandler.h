@@ -1,8 +1,9 @@
 #pragma once
 
-#include <string>
-#include <getopt.h>
 #include <functional>
+#include <getopt.h>
+#include <memory>
+#include <string>
 #include <vector>
 
 namespace ShowLib {
