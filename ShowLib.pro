@@ -23,6 +23,7 @@ SOURCES += \
     showlib/URI.cpp \
     src/BCrypt-Password.cpp \
     tests/RunSSHConfig.cpp \
+    tests/StackTest.cpp \
     tests/TestJSON.cpp \
     tests/TestStrings.cpp \
     tests/TestVectorUtilities.cpp \
@@ -41,10 +42,12 @@ HEADERS += \
     showlib/RequestHandlerFactory.h \
     showlib/Router.h \
     showlib/SSHConfiguration.h \
+    showlib/Stack.h \
     showlib/StringUtils.h \
     showlib/StringVector.h \
     showlib/URI.h \
     showlib/VectorUtilities.h \
+    tests/StackTest.h \
     tests/TestJSON.h \
     tests/TestStrings.h \
     tests/TestVectorUtilities.h \

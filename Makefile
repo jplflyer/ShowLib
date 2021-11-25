@@ -79,9 +79,6 @@ ${LIB}: ${LIB_OBJ}
 #======================================================================
 # I have a small number of programs.
 #======================================================================
-bin:
-	mkdir -p bin
-
 bins: bin/BCrypt-Password
 
 bin/BCrypt-Password: ${OBJDIR}/BCrypt-Password.o ${LIB}
@@ -115,6 +112,7 @@ ${INSTALL_BASE}/bin/BCrypt-Password: bin/BCrypt-Password
 
 tests: ${TEST_BIN}
 tests: ${TEST_BIN}/RunSSHConfig
+tests: ${TEST_BIN}/StackTest
 tests: ${TEST_BIN}/TestJSON
 tests: ${TEST_BIN}/TestStrings
 tests: ${TEST_BIN}/TestVectorUtilities
@@ -133,3 +131,6 @@ ${TEST_BIN}/TestStrings: ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o ${LIB}
 
 ${TEST_BIN}/TestVectorUtilities: ${OBJDIR}/TestVectorUtilities.o ${OBJDIR}/main-test.o ${LIB}
 	$(CXX) ${OBJDIR}/TestVectorUtilities.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
+
+${TEST_BIN}/StackTest: ${OBJDIR}/StackTest.o ${OBJDIR}/main-test.o ${LIB}
+	$(CXX) ${OBJDIR}/StackTest.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)

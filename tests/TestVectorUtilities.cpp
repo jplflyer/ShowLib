@@ -66,7 +66,7 @@ TestVectorUtilities::testIndexOf() {
 
 
     CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected found index", 2, foundIndex);
-    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected not-found index", SIZE_T_MAX, notFoundIndex);
+    CPPUNIT_ASSERT_SIZE_T_EQUAL("Unexpected not-found index", SIZE_MAX, notFoundIndex);
 }
 
 /**

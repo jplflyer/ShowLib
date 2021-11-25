@@ -53,7 +53,7 @@ size_t indexOf(std::vector<T> & vec, UnaryPredicate f) {
         }
     }
 
-    return SIZE_T_MAX;
+    return SIZE_MAX;
 }
 
 }
