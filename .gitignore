@@ -1,6 +1,7 @@
 .d
 bin
 test-bin-mac
+test-bin
 
 *~
 *.a

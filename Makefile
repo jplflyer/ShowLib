@@ -21,7 +21,7 @@ TEST_BIN=test-bin${MACAPPEND}
 LIB_DIR=showlib
 
 VPATH := ${SRCDIR}:${LIB_DIR}:${TEST_SRC}
-INCLUDES += -I./include -I.
+INCLUDES += -I.
 CXXFLAGS += -O3
 CXXFLAGS += ${LOG4CPP_USE_FOUR_ARG_CONSTRUCTOR}
 LDFLAGS += -L/usr/local/opt/openssl/lib
@@ -98,7 +98,6 @@ install: ${LIB} install_includes ${INSTALL_BASE}/etc/Makefile-Base ${INSTALL_BAS
 install_includes:
 	@mkdir -p ${INSTALL_BASE}/include/showlib
 	cp -p ${LIB_DIR}/*.h ${INSTALL_BASE}/include/showlib
-	cp -pR include/* ${INSTALL_BASE}/include
 
 ${INSTALL_BASE}/etc/Makefile-Base: Makefile-Base
 	cp Makefile-Base ${INSTALL_BASE}/etc

@@ -44,3 +44,20 @@ void StackTest::testBasics() {
     SPointer s3 = stack.pop();
     CPPUNIT_ASSERT(s3 == nullptr);
 }
+
+void StackTest::testFor() {
+    ShowLib::Stack<string> stack;
+    stack.push(sString("Hello"))
+         .push(sString("World."))
+         .push(sString("This"))
+         .push(sString("is"))
+         .push(sString("a"))
+         .push(sString("test"))
+            ;
+
+    size_t count = 0;
+    for (auto & it: stack) {
+        ++count;
+    }
+    CPPUNIT_ASSERT_EQUAL(stack.size(), count);
+}
