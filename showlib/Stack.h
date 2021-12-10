@@ -87,12 +87,6 @@ public:
         return stack.back();
     }
 
-    void foo() {
-        for (const Pointer &p: stack) {
-            std::cout << "Hubba." << std::endl;
-        }
-    }
-
     // All the iterator methods.
     iterator begin() noexcept						{ return stack.begin(); }
     iterator end() noexcept							{ return stack.end(); }
