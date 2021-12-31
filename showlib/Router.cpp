@@ -34,6 +34,7 @@ void Router::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTT
         for (Route::Pointer &route: routes) {
             if (route->matches(method, path)) {
                 if (route->requiresAuthorization && authCallback != nullptr) {
+                    cout << "authCallback..." << endl;
                     if (!authCallback(request, response)) {
                         return;
                     }
@@ -69,7 +70,7 @@ void Router::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTT
         }
     }
     catch (std::exception &e) {
-        cout << "Exception: " << e.what() << endl;
+        cout << "Exception handling request: " << e.what() << endl;
         RESTServer::returnError(response, "Server error", Poco::Net::HTTPResponse::HTTPStatus::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

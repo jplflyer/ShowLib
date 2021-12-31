@@ -11,6 +11,7 @@ INCLUDEPATH += include/ /usr/local/include
 
 SOURCES += \
     showlib/ArgumentVector.cpp \
+    showlib/Base64.cpp \
     showlib/FileUtilities.cpp \
     showlib/JSONSerializable.cpp \
     showlib/OptionHandler.cpp \

@@ -7,9 +7,16 @@ UNAME := $(shell uname)
 MACAPPEND=
 AUTO_ARGUMENT=
 
+THREADING_ARG=-j4
+
 ifeq ($(UNAME), Darwin)
-	MACAPPEND=-mac
-	CXX=clang++
+		MACAPPEND=-mac
+		CXX=clang++
+else
+		CORES := $(shell lscpu | egrep Core.s | cut -d: -f2)
+		ifeq ($(shell test ${CORES} -gt 4; echo $$?),0)
+				THREADING_ARG=-j${CORES}
+		endif
 endif
 
 SRCDIR := src

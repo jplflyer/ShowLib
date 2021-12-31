@@ -1,17 +1,27 @@
-#include "StringVector.h"
+#include "Base64.h"
 #include "RESTServer.h"
+#include "StringUtils.h"
+#include "StringVector.h"
 
+using std::cout;
+using std::endl;
 using std::string;
 
 using namespace ShowLib;
 using ArgumentPair = ArgumentVector::ArgumentPair;
 
+
+/**
+ * Constructor.
+ */
 RESTServer::RESTServer()
     : params(new Poco::Net::HTTPServerParams())
 {
 }
 
-
+/**
+ * Destructor.
+ */
 RESTServer::~RESTServer()
 {
     if (running) {
@@ -95,7 +105,7 @@ RESTServer::returnWithType(
 */
 void
 RESTServer::returnError(Poco::Net::HTTPServerResponse &response, const std::string &errorMessage, Poco::Net::HTTPResponse::HTTPStatus code) {
-    JSON json { JSON::object() };
+    JSON json = JSON::object();
 
     json["success"] = false;
     json["errorMessage"] = errorMessage;
@@ -105,7 +115,7 @@ RESTServer::returnError(Poco::Net::HTTPServerResponse &response, const std::stri
 /** Will return JSON with success = true and message. */
 void
 RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const std::string &okMessage, Poco::Net::HTTPResponse::HTTPStatus code) {
-    JSON json { JSON::object() };
+    JSON json = JSON::object();
 
     json["success"] = true;
     json["message"] = okMessage;
@@ -115,7 +125,7 @@ RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const std::st
 /** Will return JSON with success = true and message. */
 void
 RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const char * okMessage, Poco::Net::HTTPResponse::HTTPStatus code) {
-    JSON json { JSON::object() };
+    JSON json = JSON::object();
 
     json["success"] = true;
     json["message"] = okMessage;
@@ -131,7 +141,7 @@ RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const JSON &j
 /** Will return this object. */
 void
 RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const ShowLib::JSONSerializable &obj, Poco::Net::HTTPResponse::HTTPStatus code) {
-    JSON json { JSON::object() };
+    JSON json = JSON::object();
     obj.toJSON(json);
     setReturn(response, json, code);
 }
@@ -151,8 +161,8 @@ RESTServer::returnSuccess(
     const std::string &message,
     Poco::Net::HTTPResponse::HTTPStatus code)
 {
-    JSON json { JSON::object() };
-    JSON objJSON { object.isArray() ? JSON::array() : JSON::object() };
+    JSON json = JSON::object();
+    JSON objJSON = object.isArray() ? JSON::array() : JSON::object();
 
     object.toJSON(objJSON);
 
@@ -164,6 +174,36 @@ RESTServer::returnSuccess(
     setReturn(response, json, code);
 }
 
+/**
+ * Retrieve authentication for Basic only, username and password.
+ */
+std::pair<std::string, std::string>
+RESTServer::getAuthentication(const HTTPServerRequest &request, HTTPServerResponse &response)
+{
+    std::pair<std::string, std::string> pair;
+
+    string scheme;
+    string authInfo;
+
+    request.getCredentials(scheme, authInfo);
+
+    if (scheme != "Basic") {
+        returnError(response, "Unsupported authentication scheme. Use Basic", Poco::Net::HTTPResponse::HTTP_FORBIDDEN);
+        return pair;
+    }
+
+    string decoded = Base64::decodeToString(authInfo);
+    auto [username,  password] = splitPair(decoded, string{":"} );
+
+    pair.first = toLower(username);
+    pair.second = password;
+
+    return pair;
+}
+
+/**
+ * Retrive all the args from the URL.
+ */
 ShowLib::ArgumentVector
 RESTServer::getArguments(Poco::Net::HTTPServerRequest &request) {
     ShowLib::ArgumentVector vec;
