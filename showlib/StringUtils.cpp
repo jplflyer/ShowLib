@@ -247,3 +247,13 @@ std::string ShowLib::trimTail(const std::string &str, const std::string &tail) {
     }
     return str.substr(0, str.size() - tail.size());
 }
+
+/**
+ * Get an environment variable's value.
+ */
+std::string ShowLib::getEnv(const std::string &key, const std::string &defValue) {
+    char * value = getenv(key.c_str());
+    return value != nullptr ? value : defValue;
+}
+
+

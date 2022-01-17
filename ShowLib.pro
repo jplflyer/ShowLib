@@ -15,6 +15,7 @@ SOURCES += \
     showlib/FileUtilities.cpp \
     showlib/JSONSerializable.cpp \
     showlib/OptionHandler.cpp \
+    showlib/RESTClient.cpp \
     showlib/RESTServer.cpp \
     showlib/RequestHandlerFactory.cpp \
     showlib/Router.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     showlib/JSONSerializable.h \
     showlib/NumericOperators.h \
     showlib/OptionHandler.h \
+    showlib/RESTClient.h \
     showlib/RESTServer.h \
     showlib/Ranges.h \
     showlib/RequestHandlerFactory.h \

@@ -20,12 +20,22 @@ namespace ShowLib {
     std::string firstUpper(const std::string &);
     std::string firstLower(const std::string &);
 
+    //======================================================================
+    // Various predicates.
+    //======================================================================
     bool startsWith(const std::string & str, const std::string & lookFor);
     bool endsWith(const std::string & str, const std::string & lookFor);
 
     bool allDigits(const std::string &);
 
+    //======================================================================
+    // Data conversion.
+    //======================================================================
     long stol(const std::string &);
+
+    //======================================================================
+    // For trimming strings.
+    //======================================================================
 
     /** Left trim (in place) spaces. */
     std::string & trimLeft(std::string & str);
@@ -56,4 +66,9 @@ namespace ShowLib {
 
     /** If this string ends in this tail, trim it. For files, this removes a particular extension. */
     std::string trimTail(const std::string &str, const std::string &tail);
+
+    //======================================================================
+    // Miscellaneous.
+    //======================================================================
+    std::string getEnv(const std::string &, const std::string &defValue = "");
 }
