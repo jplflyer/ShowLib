@@ -109,6 +109,7 @@ public:
     Router();
 
     void disableHelp() { helpEnabled = false; }
+    void setVerbose(bool value) { verbose = value; }
     void handleRequest(HTTPServerRequest &, HTTPServerResponse &);
 
     Route::Pointer addRoute(const std::string &method, const std::string &path, Route::Callback callback);
@@ -119,6 +120,7 @@ private:
     Route::Vector routes;
     AuthCallback authCallback = nullptr;
     bool helpEnabled = true;
+    bool verbose = false;
 
     void notRecognized_JSON(HTTPServerResponse &);
     void notRecognized_HTML(HTTPServerResponse &);

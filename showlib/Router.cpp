@@ -30,6 +30,9 @@ void Router::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTT
         string method = toUpper(request.getMethod());
         string path = toLower(request.getURI());
         string accept = request.get("Accept");
+        if (verbose) {
+            cout << "Method: " << method << " path: " << path << endl;
+        }
 
         for (Route::Pointer &route: routes) {
             if (route->matches(method, path)) {
