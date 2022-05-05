@@ -108,6 +108,7 @@ RESTServer::returnError(Poco::Net::HTTPServerResponse &response, const std::stri
     JSON json = JSON::object();
 
     json["success"] = false;
+    json["httpStatus"] = code;
     json["errorMessage"] = errorMessage;
     setReturn(response, json, code);
 }
@@ -118,6 +119,7 @@ RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const std::st
     JSON json = JSON::object();
 
     json["success"] = true;
+    json["httpStatus"] = code;
     json["message"] = okMessage;
     setReturn(response, json, code);
 }
@@ -128,6 +130,7 @@ RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const char * 
     JSON json = JSON::object();
 
     json["success"] = true;
+    json["httpStatus"] = code;
     json["message"] = okMessage;
     setReturn(response, json, code);
 }
