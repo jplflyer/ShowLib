@@ -52,12 +52,20 @@ JSONSerializable::stringValue(const JSON &json, const std::string &key)
     auto it = json.find(key);
     if (it != json.end()) {
         JSON value = *it;
-        if (!value.is_null()) {
+        if (value.is_null()) {
+            return "";
+        }
+        else if (value.is_string()) {
             return value.get<string>();
+        }
+        else {
+            return value.dump();
         }
     }
     return "";
 }
+
+
 
 /**
  * Get this key's value as an int. May throw an exception if the key is found but
@@ -172,6 +180,19 @@ JSONSerializable::setStringValue(JSON &json, const std::string &key, const std::
         json[key] = value;
     }
 }
+
+void JSONSerializable::setJSONValue(JSON & json, const std::string &key, const JSON & jsonToAdd) {
+    if (key.length() > 0 && !jsonToAdd.empty()) {
+        json[key] = jsonToAdd;
+    }
+}
+
+void JSONSerializable::translateAndSet(JSON & json, const std::string &key, const JSONSerializable & jsonToAdd) {
+    JSON newJSON;
+    jsonToAdd.toJSON(newJSON);
+    setJSONValue(json, key, newJSON);
+}
+
 
 /**
  * Sets a long value in this JSON only if we have content -- value != 0. If you want to store

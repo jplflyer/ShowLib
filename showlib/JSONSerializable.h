@@ -1,9 +1,10 @@
 #pragma once
 
 #include <iostream>
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 
@@ -36,8 +37,10 @@ public:
     static JSON jsonArray(const JSON &json, const std::string &key);
 
     // These setters only push non-empty values.
-    static void setStringValue(nlohmann::json &json, const std::string &key, const std::string &value);
-    static void setLongValue(nlohmann::json &json, const std::string &key, const long value);
+    static void setStringValue(JSON & json, const std::string &key, const std::string &value);
+    static void setLongValue(JSON & json, const std::string &key, const long value);
+    static void setJSONValue(JSON & json, const std::string &key, const JSON & jsonToAdd);
+    static void translateAndSet(JSON & json, const std::string &key, const JSONSerializable & jsonToAdd);
 };
 
 std::ostream & operator<<(std::ostream &, const JSONSerializable &);
@@ -70,6 +73,9 @@ public:
      * Serialize this vector into this JSON array.
      */
     JSON & toJSON(JSON &json) const override {
+        if (!json.is_array()) {
+            json = JSON::array();
+        }
         for (const std::shared_ptr<ObjectType> & obj: *this) {
             JSON childJson = JSON::object();
             obj->toJSON(childJson);
@@ -103,6 +109,41 @@ public:
     }
 };
 
+/**
+ * This template specifically is for a map of string -> object.
+ */
+template <typename ObjectType>
+class JSONSerializableMap: public std::unordered_map<std::string, std::shared_ptr<ObjectType>>, public JSONSerializable
+{
+public:
+    typedef std::shared_ptr<ObjectType> Pointer;
+
+    /**
+     * Populate from JSON.
+     */
+    void fromJSON(const JSON & json) override {
+        for (auto it = json.begin(); it != json.end(); ++it) {
+            std::string key = it.key();
+            std::shared_ptr<ObjectType> ptr = std::make_shared<ObjectType>();
+
+            ptr->fromJSON(it.value());
+            this->insert(std::make_pair(key, ptr));
+        }
+    }
+
+    /**
+     * Write to JSON.
+     */
+    JSON & toJSON(JSON & json) const override {
+        for (auto it = this->cbegin(); it != this->cend(); ++it) {
+            JSON child;
+            it->second->toJSON(child);
+            json[it->first] = child;
+        }
+        return json;
+    }
+};
+
 }
 
 /**
@@ -115,3 +156,4 @@ void addJSON(JSON & json, const std::string &key, ShowLib::JSONSerializableVecto
         json[key] = vec.toJSON(jv);
     }
 }
+
