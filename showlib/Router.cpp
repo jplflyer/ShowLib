@@ -35,14 +35,20 @@ void Router::handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTT
         }
 
         for (Route::Pointer &route: routes) {
-            if (route->matches(method, path)) {
+            std::smatch myMatch;
+            if (route->matches(method, path, myMatch)) {
                 if (route->requiresAuthorization && authCallback != nullptr) {
                     if (!authCallback(request, response)) {
                         return;
                     }
                 }
 
-                route->callback(request, response);
+                if (route->isRegex) {
+                    route->callbackR(request, response, myMatch);
+                }
+                else {
+                    route->callback(request, response);
+                }
                 return;
             }
         }
@@ -192,6 +198,24 @@ Route::Pointer Router::addRoute(const std::string &method, const std::string &pa
 }
 
 /**
+ * Add a route using a regular expression as the path.
+ */
+Route::Pointer Router::addRouteR(const std::string &method, const std::string &path, Route::CallbackR callback) {
+    return addRouteR(method, path, "", callback);
+}
+
+/**
+ * Add a route using a regular expression as the path.
+ */
+Route::Pointer Router::addRouteR(const std::string &method, const std::string &path, const std::string &descr, Route::CallbackR callback)
+{
+    Route::Pointer route = std::make_shared<Route>( method, path, descr, callback );
+
+    routes.push_back(route);
+    return route;
+}
+
+/**
  * Constructor.
  */
 Route::Route(const std::string &m, const std::string &p, const std::string &d, Route::Callback c)
@@ -200,17 +224,34 @@ Route::Route(const std::string &m, const std::string &p, const std::string &d, R
 }
 
 /**
+ * Constructor for regex.
+ */
+Route::Route(const std::string &m, const std::string &p, const std::string &d, Route::CallbackR c)
+    : method(toUpper(m)), path(toLower(p)), description(d), callbackR(c)
+{
+    isRegex = true;
+    pathRegex = std::regex( path,  std::regex_constants::basic | std::regex_constants::icase );
+}
+
+
+/**
  * Does this route match?
  */
-bool Route::matches(const std::string &m, const std::string &p) const {
+bool Route::matches(const std::string &m, const std::string &p, std::smatch & myMatch) const {
     if (m != method) {
         return false;
     }
 
-    int myPathLen = path.length();
-    string thisPath = p.substr(0, myPathLen);
-    if (thisPath == path) {
-        return true;
+    if (!isRegex) {
+        int myPathLen = path.length();
+        string thisPath = p.substr(0, myPathLen);
+        if (thisPath == path) {
+            return true;
+        }
+    }
+
+    else {
+        return std::regex_match(p, myMatch, pathRegex);
     }
 
     return false;

@@ -24,6 +24,7 @@ SOURCES += \
     showlib/StringVector.cpp \
     showlib/URI.cpp \
     src/BCrypt-Password.cpp \
+    tests/RouterTest.cpp \
     tests/RunSSHConfig.cpp \
     tests/StackTest.cpp \
     tests/TestJSON.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     showlib/StringVector.h \
     showlib/URI.h \
     showlib/VectorUtilities.h \
+    tests/RouterTest.h \
     tests/StackTest.h \
     tests/TestJSON.h \
     tests/TestStrings.h \

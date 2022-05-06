@@ -110,6 +110,7 @@ ${INSTALL_BASE}/bin/BCrypt-Password: bin/BCrypt-Password
 #======================================================================
 
 tests: ${TEST_BIN}
+tests: ${TEST_BIN}/RouterTest
 tests: ${TEST_BIN}/RunSSHConfig
 tests: ${TEST_BIN}/StackTest
 tests: ${TEST_BIN}/TestJSON
@@ -119,17 +120,12 @@ tests: ${TEST_BIN}/TestVectorUtilities
 ${TEST_BIN}:
 	mkdir -p ${TEST_BIN}
 
+${TEST_BIN}/%: ${OBJDIR}/%.o ${OBJDIR}/main-test.o ${LIB}
+	$(CXX) $< ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
+
 ${TEST_BIN}/RunSSHConfig: ${OBJDIR}/RunSSHConfig.o ${LIB}
 	$(CXX) ${OBJDIR}/RunSSHConfig.o -L. ${LDFLAGS} -lssl -lcrypto -l${LIBNAME} $(OUTPUT_OPTION)
 
-${TEST_BIN}/TestJSON: ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o ${LIB}
-	$(CXX) ${OBJDIR}/TestJSON.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
+${TEST_BIN}/RouterTest: ${OBJDIR}/RouterTest.o ${OBJDIR}/main-test.o ${LIB}
+	$(CXX) $< ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} -lPocoNet -lPocoFoundation  $(OUTPUT_OPTION)
 
-${TEST_BIN}/TestStrings: ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o ${LIB}
-	$(CXX) ${OBJDIR}/TestStrings.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
-
-${TEST_BIN}/TestVectorUtilities: ${OBJDIR}/TestVectorUtilities.o ${OBJDIR}/main-test.o ${LIB}
-	$(CXX) ${OBJDIR}/TestVectorUtilities.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)
-
-${TEST_BIN}/StackTest: ${OBJDIR}/StackTest.o ${OBJDIR}/main-test.o ${LIB}
-	$(CXX) ${OBJDIR}/StackTest.o ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} $(OUTPUT_OPTION)

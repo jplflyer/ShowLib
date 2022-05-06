@@ -59,6 +59,7 @@
 
 #include <functional>
 #include <memory>
+#include <regex>
 #include <string>
 #include <vector>
 
@@ -77,16 +78,21 @@ public:
     typedef std::shared_ptr<Route> Pointer;
     typedef std::vector<Pointer> Vector;
     typedef std::function<void(HTTPServerRequest &, HTTPServerResponse &)> Callback;
+    typedef std::function<void(HTTPServerRequest &, HTTPServerResponse &, const std::smatch &)> CallbackR;
 
     std::string method;
     std::string path;
+    std::regex pathRegex;
     std::string description;
-    Callback callback;
+    Callback callback = nullptr;
+    CallbackR callbackR = nullptr;
     bool requiresAuthorization = true;
+    bool isRegex = false;
 
     Route();
     Route(const std::string &m, const std::string &p, const std::string &d, Route::Callback );
-    bool matches(const std::string &m, const std::string &p) const;
+    Route(const std::string &m, const std::string &p, const std::string &d, Route::CallbackR );
+    bool matches(const std::string &m, const std::string &p, std::smatch &myMatch) const;
 };
 
 /**
@@ -114,6 +120,9 @@ public:
 
     Route::Pointer addRoute(const std::string &method, const std::string &path, Route::Callback callback);
     Route::Pointer addRoute(const std::string &method, const std::string &path, const std::string &descr, Route::Callback callback);
+    Route::Pointer addRouteR(const std::string &method, const std::string &path, Route::CallbackR callback);
+    Route::Pointer addRouteR(const std::string &method, const std::string &path, const std::string &descr, Route::CallbackR callback);
+
     void setAuthorization(AuthCallback cb) { authCallback = cb; }
 
 private:
