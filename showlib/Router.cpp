@@ -122,7 +122,7 @@ void Router::help_Text(HTTPServerResponse &response) {
     std::ostringstream oStr;
 
     oStr << "We recognize the following routes:" << endl << endl;
-    int longest = 0;
+    size_t longest = 0;
     for (const Route::Pointer &route: routes) {
         if (route->path.length() > longest) {
             longest = route->path.length();
