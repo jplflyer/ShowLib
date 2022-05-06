@@ -129,8 +129,12 @@ void Router::help_Text(HTTPServerResponse &response) {
         }
     }
     for (const Route::Pointer &route: routes) {
-        cout << "Descr: " << route->description << endl;
-        oStr << "	" << route->method << "  " << std::setw(longest) << std::left << route->path << " " << route->description << endl;
+        if (verbose) {
+            cout << "Descr: " << route->description << endl;
+        }
+        oStr << "    " << std::setw(6) << std::left << route->method
+             << "  " << std::setw(longest) << std::left << route->path
+             << " " << route->description << endl;
     }
 
     oStr << endl << "A curl example:" << endl
