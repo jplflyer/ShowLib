@@ -152,7 +152,7 @@ public:
 template <typename T>
 void addJSON(JSON & json, const std::string &key, ShowLib::JSONSerializableVector<T> vec) {
     if (vec.size() > 0) {
-        JSON jv { JSON::array() };
+        JSON jv = JSON::array();
         json[key] = vec.toJSON(jv);
     }
 }
