@@ -4,6 +4,8 @@
 #include <string>
 
 #include <nlohmann/json.hpp>
+
+#include <showlib/CommonUsing.h>
 #include <showlib/StringUtils.h>
 
 #include "Router.h"
@@ -230,7 +232,13 @@ Route::Route(const std::string &m, const std::string &p, const std::string &d, R
     : method(toUpper(m)), path(toLower(p)), description(d), callbackR(c)
 {
     isRegex = true;
-    pathRegex = std::regex( path,  std::regex_constants::basic | std::regex_constants::icase );
+    try {
+        pathRegex = std::regex( path,  std::regex_constants::extended | std::regex_constants::icase );
+    }
+    catch (std::regex_error &e) {
+        cerr << "Regex error processing " << path << " -- " << e.what() << endl;
+        exit(1);
+    }
 }
 
 

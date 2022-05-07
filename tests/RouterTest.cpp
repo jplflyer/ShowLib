@@ -13,9 +13,10 @@ void RouterTest::testBasic()
 
 void RouterTest::testRegex()
 {
-    Route route("GET", "/authors/\\d", "Get authors", nullptr);
+    Route route("GET", "/authors/\\d", "Get authors", [](HTTPServerRequest &, HTTPServerResponse &){} );
+    std::smatch sm;
 
-    cout << "Mathes PUT /authors/10: " << route.matches("PUT", "/authors/10");
-    cout << "Mathes GET /authors: " << route.matches("GET", "/authors");
-    cout << "Mathes GET /authors/10: " << route.matches("GET", "/authors/10");
+    cout << "Mathes PUT /authors/10: " << route.matches("PUT", "/authors/10", sm);
+    cout << "Mathes GET /authors: " << route.matches("GET", "/authors", sm);
+    cout << "Mathes GET /authors/10: " << route.matches("GET", "/authors/10", sm);
 }

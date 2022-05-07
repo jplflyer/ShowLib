@@ -114,6 +114,7 @@ tests: ${TEST_BIN}/RouterTest
 tests: ${TEST_BIN}/RunSSHConfig
 tests: ${TEST_BIN}/StackTest
 tests: ${TEST_BIN}/TestJSON
+tests: ${TEST_BIN}/TestRegex
 tests: ${TEST_BIN}/TestStrings
 tests: ${TEST_BIN}/TestVectorUtilities
 

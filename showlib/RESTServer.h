@@ -24,6 +24,7 @@ public:
     RESTServer();
     virtual ~RESTServer();
 
+    // Pure text versions
     Route::Pointer addRoute(const std::string &method, const std::string &path, Route::Callback callback) {
         Route::Pointer route = router.addRoute(method, path, "", callback);
         return route;
@@ -36,6 +37,23 @@ public:
 
     Route::Pointer addRoute(const std::string &method, const std::string &path, const std::string &descr, bool requiresAuth, Route::Callback callback) {
         Route::Pointer route = router.addRoute(method, path, descr, callback);
+        route->requiresAuthorization = requiresAuth;
+        return route;
+    }
+
+    // Regex versions.
+    Route::Pointer addRouteR(const std::string &method, const std::string &path, Route::CallbackR callback) {
+        Route::Pointer route = router.addRouteR(method, path, "", callback);
+        return route;
+    }
+
+    Route::Pointer addRouteR(const std::string &method, const std::string &path, const std::string &descr, Route::CallbackR callback) {
+        Route::Pointer route = router.addRouteR(method, path, descr, callback);
+        return route;
+    }
+
+    Route::Pointer addRouteR(const std::string &method, const std::string &path, const std::string &descr, bool requiresAuth, Route::CallbackR callback) {
+        Route::Pointer route = router.addRouteR(method, path, descr, callback);
         route->requiresAuthorization = requiresAuth;
         return route;
     }

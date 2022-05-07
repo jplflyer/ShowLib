@@ -28,6 +28,7 @@ SOURCES += \
     tests/RunSSHConfig.cpp \
     tests/StackTest.cpp \
     tests/TestJSON.cpp \
+    tests/TestRegex.cpp \
     tests/TestStrings.cpp \
     tests/TestVectorUtilities.cpp \
     tests/Whatever.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
 HEADERS += \
     showlib/ArgumentVector.h \
     showlib/Base64.h \
+    showlib/CommonUsing.h \
     showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
     showlib/NumericOperators.h \
@@ -54,6 +56,7 @@ HEADERS += \
     tests/RouterTest.h \
     tests/StackTest.h \
     tests/TestJSON.h \
+    tests/TestRegex.h \
     tests/TestStrings.h \
     tests/TestVectorUtilities.h \
     tests/UnitTesting.h \
