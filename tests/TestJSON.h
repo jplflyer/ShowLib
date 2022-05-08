@@ -14,5 +14,6 @@ class TestJSON: public CppUnit::TestFixture
 
 public:
     void testBasic();
+    void testIntArray();
 };
 

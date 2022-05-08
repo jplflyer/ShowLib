@@ -35,6 +35,7 @@ public:
     static bool boolValue(const JSON &json, const std::string &key, bool defaultValue = false);
     static JSON jsonValue(const JSON &json, const std::string &key);
     static JSON jsonArray(const JSON &json, const std::string &key);
+    static std::vector<int> intVectorValue(const JSON &json, const std::string &key);
 
     // These setters only push non-empty values.
     static void setStringValue(JSON & json, const std::string &key, const std::string &value);

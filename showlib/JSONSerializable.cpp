@@ -9,7 +9,7 @@ using std::string;
  */
 JSON
 JSONSerializable::getJSON() const {
-    JSON json { isArray() ? JSON::array() : JSON::object() };
+    JSON json = isArray() ? JSON::array() : JSON::object();
 
     toJSON(json);
 
@@ -130,8 +130,7 @@ JSONSerializable::doubleValue(const JSON &json, const std::string &key, double d
  *
  * @returns the value or false if not found.
  */
-bool
-JSONSerializable::boolValue(const JSON &json, const std::string &key, bool defaultValue)
+bool JSONSerializable::boolValue(const JSON &json, const std::string &key, bool defaultValue)
 {
     auto it = json.find(key);
     if (it != json.end()) {
@@ -148,8 +147,7 @@ JSONSerializable::boolValue(const JSON &json, const std::string &key, bool defau
  *
  * @returns the value or an empty JSON object.
  */
-JSON
-JSONSerializable::jsonValue(const JSON &json, const std::string &key) {
+JSON JSONSerializable::jsonValue(const JSON &json, const std::string &key) {
     auto it = json.find(key);
     if (it != json.end()) {
         return *it;
@@ -162,13 +160,32 @@ JSONSerializable::jsonValue(const JSON &json, const std::string &key) {
  *
  * @returns the value or an empty JSON object.
  */
-JSON
-JSONSerializable::jsonArray(const JSON &json, const std::string &key) {
+JSON JSONSerializable::jsonArray(const JSON &json, const std::string &key) {
     auto it = json.find(key);
     if (it != json.end()) {
         return *it;
     }
     return JSON::array();
+}
+
+/**
+ * We expect this vector to be an array of integer values.
+ */
+std::vector<int> JSONSerializable::intVectorValue(const JSON &json, const std::string &key) {
+    std::vector<int> retVal;
+    auto it = json.find(key);
+
+    if (it != json.end()) {
+        const JSON jsonArray = *it;
+        for (auto iter = jsonArray.begin(); iter != jsonArray.end(); ++iter) {
+            const JSON value = *iter;
+            if (value.is_number()) {
+                retVal.push_back( value.get<int>() );
+            }
+        }
+    }
+
+    return retVal;
 }
 
 /**
