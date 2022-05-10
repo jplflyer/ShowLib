@@ -152,7 +152,7 @@ RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const ShowLib
 /**
  * Produces JSON:
  * 		{
- * 			"status": message,
+ * 			"message": message,
  * 			key: object-as-json
  * 		}
  */
@@ -171,7 +171,7 @@ RESTServer::returnSuccess(
 
     json[key] = objJSON;
     if (message.length() > 0) {
-        json["status"] = message;
+        json["message"] = message;
     }
     json["httpStatus"] = code;
 
