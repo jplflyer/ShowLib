@@ -173,6 +173,7 @@ RESTServer::returnSuccess(
     if (message.length() > 0) {
         json["status"] = message;
     }
+    json["httpStatus"] = code;
 
     setReturn(response, json, code);
 }
