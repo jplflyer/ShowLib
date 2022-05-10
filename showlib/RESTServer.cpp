@@ -174,6 +174,7 @@ RESTServer::returnSuccess(
         json["message"] = message;
     }
     json["httpStatus"] = code;
+    json["success"] = true;
 
     setReturn(response, json, code);
 }
