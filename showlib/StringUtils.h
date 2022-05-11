@@ -72,3 +72,6 @@ namespace ShowLib {
     //======================================================================
     std::string getEnv(const std::string &, const std::string &defValue = "");
 }
+
+/** This makes 2_sz a size_t. */
+constexpr std::size_t operator "" _sz ( unsigned long long n ) { return n; }
