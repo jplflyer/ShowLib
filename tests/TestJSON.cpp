@@ -20,7 +20,8 @@ public:
         anIntValue = intValue(json, "anIntValue");
     }
 
-    JSON & toJSON(JSON &json) const {
+    JSON toJSON() const {
+        JSON json = JSON::object();
         json["aStringValue"] = aStringValue;
         json["anIntValue"] = anIntValue;
 
@@ -34,7 +35,7 @@ void TestJSON::testBasic() {
     example.aStringValue = "Hello World";
     example.anIntValue = 1234;
 
-    JSON json = example.getJSON();
+    JSON json = example.toJSON();
     MyExample outExample;
 
     outExample.fromJSON(json);

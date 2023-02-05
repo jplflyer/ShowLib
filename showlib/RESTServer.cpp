@@ -144,9 +144,7 @@ RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const JSON &j
 /** Will return this object. */
 void
 RESTServer::returnSuccess(Poco::Net::HTTPServerResponse &response, const ShowLib::JSONSerializable &obj, Poco::Net::HTTPResponse::HTTPStatus code) {
-    JSON json = JSON::object();
-    obj.toJSON(json);
-    setReturn(response, json, code);
+    setReturn(response, obj.toJSON(), code);
 }
 
 /**
@@ -165,11 +163,8 @@ RESTServer::returnSuccess(
     Poco::Net::HTTPResponse::HTTPStatus code)
 {
     JSON json = JSON::object();
-    JSON objJSON = object.isArray() ? JSON::array() : JSON::object();
 
-    object.toJSON(objJSON);
-
-    json[key] = objJSON;
+    json[key] = object.toJSON();
     if (message.length() > 0) {
         json["message"] = message;
     }

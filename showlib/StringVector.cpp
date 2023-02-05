@@ -107,7 +107,8 @@ void StringVector::fromJSON(const JSON &json) {
 /**
  * Serialize this vector into this JSON array.
  */
-JSON & StringVector::toJSON(JSON &json) const {
+JSON StringVector::toJSON() const {
+    JSON json = JSON::array();
     for (const Pointer & obj: *this) {
         if (obj != nullptr) {
             json.push_back(*obj);

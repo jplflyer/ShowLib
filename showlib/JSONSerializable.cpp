@@ -5,23 +5,11 @@ using namespace ShowLib;
 using std::string;
 
 /**
- * Subclasses should implement toJSON(JSON &).
- */
-JSON
-JSONSerializable::getJSON() const {
-    JSON json = isArray() ? JSON::array() : JSON::object();
-
-    toJSON(json);
-
-    return json;
-}
-
-/**
  * Return ourself as a JSON string.
  */
 std::string
 JSONSerializable::toString() const {
-    return getJSON().dump();
+    return toJSON().dump();
 }
 
 /**
@@ -29,7 +17,7 @@ JSONSerializable::toString() const {
  */
 std::string
 JSONSerializable::toString(int indent) const {
-    return getJSON().dump(indent);
+    return toJSON().dump(indent);
 }
 
 /**
@@ -204,10 +192,8 @@ void JSONSerializable::setJSONValue(JSON & json, const std::string &key, const J
     }
 }
 
-void JSONSerializable::translateAndSet(JSON & json, const std::string &key, const JSONSerializable & jsonToAdd) {
-    JSON newJSON;
-    jsonToAdd.toJSON(newJSON);
-    setJSONValue(json, key, newJSON);
+void JSONSerializable::translateAndSet(JSON & json, const std::string &key, const JSONSerializable & serializable) {
+    setJSONValue(json, key, serializable.toJSON());
 }
 
 

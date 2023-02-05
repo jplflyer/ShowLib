@@ -18,9 +18,7 @@ namespace ShowLib {
 class JSONSerializable {
 public:
     virtual void fromJSON(const JSON &) = 0;
-    virtual JSON & toJSON(JSON &) const = 0;
-
-    JSON getJSON() const;
+    virtual JSON toJSON() const = 0;
 
     std::string toString() const;
     std::string toString(int indent) const;
@@ -73,14 +71,10 @@ public:
     /**
      * Serialize this vector into this JSON array.
      */
-    JSON & toJSON(JSON &json) const override {
-        if (!json.is_array()) {
-            json = JSON::array();
-        }
+    JSON toJSON() const override {
+        JSON json = JSON::array();
         for (const std::shared_ptr<ObjectType> & obj: *this) {
-            JSON childJson = JSON::object();
-            obj->toJSON(childJson);
-            json.push_back(childJson);
+            json.push_back( obj->toJSON() );
         }
 
         return json;
@@ -135,11 +129,10 @@ public:
     /**
      * Write to JSON.
      */
-    JSON & toJSON(JSON & json) const override {
+    JSON toJSON() const override {
+        JSON json;
         for (auto it = this->cbegin(); it != this->cend(); ++it) {
-            JSON child;
-            it->second->toJSON(child);
-            json[it->first] = child;
+            json[it->first] = it->second->toJSON();
         }
         return json;
     }
@@ -153,8 +146,7 @@ public:
 template <typename T>
 void addJSON(JSON & json, const std::string &key, ShowLib::JSONSerializableVector<T> vec) {
     if (vec.size() > 0) {
-        JSON jv = JSON::array();
-        json[key] = vec.toJSON(jv);
+        json[key] = vec.toJSON();
     }
 }
 
