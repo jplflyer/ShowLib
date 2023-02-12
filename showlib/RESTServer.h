@@ -11,6 +11,7 @@
 #include "JSONSerializable.h"
 #include "Router.h"
 #include "RequestHandlerFactory.h"
+#include "Tuple.h"
 
 /**
  * Base class for anyone putting up a REST server. Uses Poco/Net/HTTPServer.
@@ -118,7 +119,7 @@ public:
     //======================================================================
     // Helpful methods.
     //======================================================================
-    static std::pair<std::string, std::string> getAuthentication(const HTTPServerRequest &, HTTPServerResponse &);
+    static ShowLib::StringsTuple getAuthentication(const HTTPServerRequest &, HTTPServerResponse &);
 
     static ShowLib::ArgumentVector getArguments(HTTPServerRequest &request);
     static std::string urlDecode(const std::string &input);

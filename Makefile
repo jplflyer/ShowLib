@@ -10,7 +10,7 @@
 
 # This needs to be above the include, as he has targets.
 .PHONY: all makelib
-all: directories bin makelib bins
+all: directories dependencies bin makelib bins
 
 # We include a standard base with lots of boilerplate.
 include Makefile-Base
@@ -62,6 +62,29 @@ echo:
 	@echo LIB_OBJ is ${LIB_OBJ}
 	@echo VPATH = ${VPATH}
 
+#======================================================================
+# We support grabbing some third-party libraries if they aren't already
+# installed in /usr/local/include.
+#======================================================================
+.PHONY: dependencies
+dependencies:
+
+#----------------------------------------------------------------------
+# jwt-cpp is a JSON Web Token includes-only library.
+#----------------------------------------------------------------------
+ifeq ($(wildcard /usr/local/include/jwt-cpp/.*),)
+
+JWT_CPP_DIR=src/includes/jwt-cpp
+dependencies: ${JWT_CPP_DIR}
+
+${JWT_CPP_DIR}: /tmp/jwt-cpp
+	mkdir -p $@
+	cp -R /tmp/jwt-cpp/include/jwt-cpp/* $@
+
+/tmp/jwt-cpp:
+	git clone https://github.com/Thalhammer/jwt-cpp.git /tmp/jwt-cpp
+
+endif
 
 #======================================================================
 # Making the library.
@@ -129,4 +152,3 @@ ${TEST_BIN}/RunSSHConfig: ${OBJDIR}/RunSSHConfig.o ${LIB}
 
 ${TEST_BIN}/RouterTest: ${OBJDIR}/RouterTest.o ${OBJDIR}/main-test.o ${LIB}
 	$(CXX) $< ${OBJDIR}/main-test.o -L. ${LDFLAGS} -l${LIBNAME} -lPocoNet -lPocoFoundation  $(OUTPUT_OPTION)
-

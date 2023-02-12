@@ -12,6 +12,7 @@ INCLUDEPATH += include/ /usr/local/include
 SOURCES += \
     showlib/ArgumentVector.cpp \
     showlib/Base64.cpp \
+    showlib/CommonUsing.cpp \
     showlib/FileUtilities.cpp \
     showlib/JSONSerializable.cpp \
     showlib/OptionHandler.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     showlib/Stack.h \
     showlib/StringUtils.h \
     showlib/StringVector.h \
+    showlib/Tuple.h \
     showlib/URI.h \
     showlib/VectorUtilities.h \
     tests/RouterTest.h \

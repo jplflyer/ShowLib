@@ -177,28 +177,30 @@ RESTServer::returnSuccess(
 /**
  * Retrieve authentication for Basic only, username and password.
  */
-std::pair<std::string, std::string>
+ShowLib::StringsTuple
 RESTServer::getAuthentication(const HTTPServerRequest &request, HTTPServerResponse &response)
 {
-    std::pair<std::string, std::string> pair;
+    StringsTuple tuple;
 
     string scheme;
     string authInfo;
 
     request.getCredentials(scheme, authInfo);
 
-    if (scheme != "Basic") {
-        returnError(response, "Unsupported authentication scheme. Use Basic", Poco::Net::HTTPResponse::HTTP_FORBIDDEN);
-        return pair;
+    tuple.first = scheme;
+
+    if (scheme == "Basic") {
+        string decoded = Base64::decodeToString(authInfo);
+        auto [username,  password] = splitPair(decoded, string{":"} );
+
+        tuple.second = toLower(username);
+        tuple.third = password;
+    }
+    else if (scheme == "Bearer") {
+        tuple.second = authInfo;
     }
 
-    string decoded = Base64::decodeToString(authInfo);
-    auto [username,  password] = splitPair(decoded, string{":"} );
-
-    pair.first = toLower(username);
-    pair.second = password;
-
-    return pair;
+    return tuple;
 }
 
 /**
