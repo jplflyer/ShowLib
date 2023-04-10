@@ -1,11 +1,15 @@
 #pragma once
 
+#define JWT_DISABLE_PICOJSON
+
 #include <memory>
 
 #include <Poco/Poco.h>
 #include <Poco/Net/HTTPServer.h>
 
 #include <nlohmann/json.hpp>
+#include <jwt-cpp/traits/nlohmann-json/traits.h>
+#include <jwt-cpp/jwt.h>
 
 #include "ArgumentVector.h"
 #include "JSONSerializable.h"
@@ -19,6 +23,18 @@
 class RESTServer
 {
 public:
+    class Authentication {
+    public:
+        typedef jwt::decoded_jwt<jwt::traits::nlohmann_json> JWT_DECODED;
+        typedef std::shared_ptr<JWT_DECODED> JWT_DECODED_POINTER;
+
+        std::string scheme;
+        std::string username;
+        std::string password;
+        JWT_DECODED_POINTER jwt = nullptr;
+        bool valid = false;
+    };
+
     //======================================================================
     // Startup methods.
     //======================================================================
@@ -119,7 +135,7 @@ public:
     //======================================================================
     // Helpful methods.
     //======================================================================
-    static ShowLib::StringsTuple getAuthentication(const HTTPServerRequest &, HTTPServerResponse &);
+    static Authentication getAuthentication(const HTTPServerRequest &, HTTPServerResponse &);
 
     static ShowLib::ArgumentVector getArguments(HTTPServerRequest &request);
     static std::string urlDecode(const std::string &input);

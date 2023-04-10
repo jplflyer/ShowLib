@@ -1,11 +1,8 @@
 #include "Base64.h"
+#include "CommonUsing.h"
 #include "RESTServer.h"
 #include "StringUtils.h"
 #include "StringVector.h"
-
-using std::cout;
-using std::endl;
-using std::string;
 
 using namespace ShowLib;
 using ArgumentPair = ArgumentVector::ArgumentPair;
@@ -177,30 +174,39 @@ RESTServer::returnSuccess(
 /**
  * Retrieve authentication for Basic only, username and password.
  */
-ShowLib::StringsTuple
+RESTServer::Authentication
 RESTServer::getAuthentication(const HTTPServerRequest &request, HTTPServerResponse &response)
 {
-    StringsTuple tuple;
+    RESTServer::Authentication rv;
 
     string scheme;
     string authInfo;
 
     request.getCredentials(scheme, authInfo);
 
-    tuple.first = scheme;
+    rv.scheme = scheme;
 
     if (scheme == "Basic") {
         string decoded = Base64::decodeToString(authInfo);
         auto [username,  password] = splitPair(decoded, string{":"} );
 
-        tuple.second = toLower(username);
-        tuple.third = password;
-    }
-    else if (scheme == "Bearer") {
-        tuple.second = authInfo;
+        rv.username = toLower(username);
+        rv.password = password;
+        rv.valid = true;
     }
 
-    return tuple;
+    else if (scheme == "Bearer") {
+        try {
+            rv.jwt = std::make_shared<Authentication::JWT_DECODED>(authInfo);
+            rv.valid = true;
+        }
+        catch (std::exception &e) {
+            cerr << "JWT Parse Exception: " << e.what() << endl;
+            returnError(response, "Invalid Bearer Authentication");
+        }
+    }
+
+    return rv;
 }
 
 /**
