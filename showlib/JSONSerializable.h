@@ -26,6 +26,8 @@ public:
     virtual bool isArray() const { return false; }
 
     // Various getters.
+    static bool hasKey(const JSON &json, const std::string &key);
+
     static std::string stringValue(const JSON &json, const std::string &key);
     static int intValue(const JSON &json, const std::string &key, int defaultValue = 0);
     static long longValue(const JSON &json, const std::string &key, long defaultValue = 0L);

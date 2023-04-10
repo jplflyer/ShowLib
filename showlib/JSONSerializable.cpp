@@ -4,6 +4,11 @@ using namespace ShowLib;
 
 using std::string;
 
+bool JSONSerializable::hasKey(const JSON &json, const std::string &key) {
+    auto it = json.find(key);
+    return it != json.end();
+}
+
 /**
  * Return ourself as a JSON string.
  */

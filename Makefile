@@ -69,6 +69,8 @@ echo:
 .PHONY: dependencies
 dependencies:
 
+install_dependencies:
+
 #----------------------------------------------------------------------
 # jwt-cpp is a JSON Web Token includes-only library.
 #----------------------------------------------------------------------
@@ -83,6 +85,12 @@ ${JWT_CPP_DIR}: /tmp/jwt-cpp
 
 /tmp/jwt-cpp:
 	git clone https://github.com/Thalhammer/jwt-cpp.git /tmp/jwt-cpp
+
+install_dependencies: /usr/local/include/jwt-cpp
+
+/usr/local/include/jwt-cpp: ${JWT_CPP_DIR}
+	mkdir -p $@
+	cp -R ${JWT_CPP_DIR}/* $@
 
 endif
 
@@ -114,7 +122,7 @@ bin/BCrypt-Password: ${OBJDIR}/BCrypt-Password.o ${LIB}
 # source files.
 #======================================================================
 .PHONY: install
-install: ${LIB} install_includes ${INSTALL_BASE}/etc/Makefile-Base ${INSTALL_BASE}/bin/BCrypt-Password
+install: ${LIB} install_includes ${INSTALL_BASE}/etc/Makefile-Base ${INSTALL_BASE}/bin/BCrypt-Password install_dependencies
 	cp -p ${LIB} ${INSTALL_BASE}/lib
 
 .PHONY: install_includes
