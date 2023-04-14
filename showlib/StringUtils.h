@@ -67,6 +67,8 @@ namespace ShowLib {
     /** If this string ends in this tail, trim it. For files, this removes a particular extension. */
     std::string trimTail(const std::string &str, const std::string &tail);
 
+    std::string replaceAll(std::string str, const std::string& from, const std::string& to);
+
     //======================================================================
     // Miscellaneous.
     //======================================================================

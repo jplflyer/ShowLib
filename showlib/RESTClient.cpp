@@ -101,6 +101,10 @@ void
 RESTClient::prepare(curlpp::Easy & request, const std::string &url, HTTPHeader::Vector *headers) {
     std::chrono::system_clock::time_point startTime = std::chrono::system_clock::now();
 
+    if (verbose) {
+        cout << "URL: " << url << endl;
+    }
+
     request.setOpt<curlpp::options::Url>(host + url);
     if (allowSelfSigned) {
         request.setOpt(cURLpp::Options::SslVerifyPeer(false));
