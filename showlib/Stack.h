@@ -38,6 +38,12 @@ public:
     Stack<T> & push(Pointer ptr) { stack.push_front(ptr); return *this; }
 
     /**
+     * Push to the back of the stack. Yes, I know, that's not how
+     * stacks work. This stack does.
+     */
+    Stack<T> & push_back(Pointer ptr) { stack.push_back(ptr); return *this; }
+
+    /**
      * Pop the front of the stack. Returns nullptr on an empty stack.
      *
      * 		T::Pointer value = stack.pop();
