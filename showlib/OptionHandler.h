@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <functional>
 #include <getopt.h>
 #include <memory>
@@ -103,9 +104,9 @@ public:
          * For instance --client might set mode to Mode::Client. You pass in the
          * field being set and the value (of the same type) to set it to.
          */
-        template <class Type>
-        ArgPointer add     (const char *_name, Type &field, const Type & newValue, const std::string & help = "") {
-            return addNoArg(_name, [&](const char *) { field = newValue; }, help);
+        template <class MyType>
+        ArgPointer add     (const char *_name, MyType *field, MyType newValue, const std::string & help = "") {
+            return addNoArg(_name, [=](const char *) { *field = newValue; }, help);
         }
 
         void addAll(Argument *arguments);
