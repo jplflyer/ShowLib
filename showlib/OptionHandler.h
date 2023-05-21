@@ -95,6 +95,19 @@ public:
         ArgPointer addNoArg(const char *_name, CallbackFunction cb, const std::string & help = "");
         ArgPointer addNoArg(const char *_name, char shortVersion, CallbackFunction cb, const std::string & help = "");
 
+        ArgPointer add     (const char *name, int &, const std::string & help = "");
+        ArgPointer add     (const char *name, std::string &, const std::string & help = "");
+
+        /**
+         * This method is for when we're setting a field to a specific value.
+         * For instance --client might set mode to Mode::Client. You pass in the
+         * field being set and the value (of the same type) to set it to.
+         */
+        template <class Type>
+        ArgPointer add     (const char *_name, Type &field, const Type & newValue, const std::string & help = "") {
+            return addNoArg(_name, [&](const char *) { field = newValue; }, help);
+        }
+
         void addAll(Argument *arguments);
         void addAll(ArgumentVector &vec);
 

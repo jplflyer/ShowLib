@@ -270,6 +270,29 @@ OptionHandler::ArgumentVector::addNoArg( const char *name, char shortVersion, Ca
 }
 
 /**
+ * We have a ton of arguments where we're just setting an
+ * integer field to atoi(value). It results in boilerplate.
+ * You can use this add() instead. For instance:
+ *
+ *     args.add  ("port", port, "Server port number");
+ */
+OptionHandler::ArgPointer OptionHandler::ArgumentVector::add(const char *name, int &field, const std::string & help) {
+    return addArg(name, [&](const char *value) { field = atoi(value); }, std::to_string(field), help);
+}
+
+/**
+ * We have a ton of arguments where we're just setting a
+ * string field to value. It results in boilerplate.
+ * You can use this add() instead. For instance:
+ *
+ *   args.add  ("host", host, "Server host name");
+ */
+OptionHandler::ArgPointer OptionHandler::ArgumentVector::add(const char *name, std::string &field, const std::string & help) {
+    return addArg(name, [&](const char *value) { field = value; }, field, help);
+}
+
+
+/**
  * Append these.
  */
 void
