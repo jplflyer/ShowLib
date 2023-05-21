@@ -29,6 +29,8 @@ public:
     bool empty() const { return stack.empty(); }
     size_t size() const { return stack.size(); }
 
+    void erase() { stack.clear(); }
+
     /**
      * Push an object to the front of the stack. Returns ourself in case
      * you wan to use a builder pattern:
