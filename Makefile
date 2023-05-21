@@ -32,7 +32,7 @@ LIB_SRC := $(sort ${LIB_NOSORT})
 LIB_OBJ := $(patsubst ${LIB_DIR}/%.cpp,${OBJDIR}/%.o,${LIB_SRC})
 
 LIBNAME=show${MACAPPEND}
-LIB=lib/libshow${MACAPPEND}.a
+LIB=lib/lib${LIBNAME}.a
 LIB_ARGS= -cvrU
 ifeq ($(UNAME), Darwin)
 	LIB_ARGS= -cvr
