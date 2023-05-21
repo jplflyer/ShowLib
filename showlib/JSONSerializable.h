@@ -28,7 +28,7 @@ public:
     // Various getters.
     static bool hasKey(const JSON &json, const std::string &key);
 
-    static std::string stringValue(const JSON &json, const std::string &key);
+    static std::string stringValue(const JSON &json, const std::string &key, const std::string &defaultValue = "");
     static int intValue(const JSON &json, const std::string &key, int defaultValue = 0);
     static long longValue(const JSON &json, const std::string &key, long defaultValue = 0L);
     static double doubleValue(const JSON &json, const std::string &key, double defaultValue = 0.0);

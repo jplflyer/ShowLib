@@ -40,7 +40,7 @@ ShowLib::operator<<(std::ostream &output, const JSONSerializable &obj) {
  * @returns The object in string representation or an empty string if the key isn't found.
  */
 std::string
-JSONSerializable::stringValue(const JSON &json, const std::string &key)
+JSONSerializable::stringValue(const JSON &json, const std::string &key, const std::string &defaultValue)
 {
     auto it = json.find(key);
     if (it != json.end()) {
@@ -55,7 +55,7 @@ JSONSerializable::stringValue(const JSON &json, const std::string &key)
             return value.dump();
         }
     }
-    return "";
+    return defaultValue;
 }
 
 
