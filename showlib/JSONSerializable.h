@@ -113,6 +113,7 @@ template <typename ObjectType>
 class JSONSerializableMap: public std::unordered_map<std::string, std::shared_ptr<ObjectType>>, public JSONSerializable
 {
 public:
+    typedef std::unordered_map<std::string, std::shared_ptr<ObjectType>> Map;
     typedef std::shared_ptr<ObjectType> Pointer;
 
     /**
@@ -137,6 +138,16 @@ public:
             json[it->first] = it->second->toJSON();
         }
         return json;
+    }
+
+    bool contains(const std::string &key) const {
+        auto it = Map::find(key);
+        return it != Map::end();
+    }
+
+    Pointer get(const std::string &key) const {
+        auto it = Map::find(key);
+        return it != Map::end() ? it->second : nullptr;
     }
 };
 
