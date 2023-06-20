@@ -13,6 +13,7 @@ SOURCES += \
     showlib/ArgumentVector.cpp \
     showlib/Base64.cpp \
     showlib/CommonUsing.cpp \
+    showlib/ConnectionPool.cpp \
     showlib/FileUtilities.cpp \
     showlib/JSONSerializable.cpp \
     showlib/OptionHandler.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     showlib/ArgumentVector.h \
     showlib/Base64.h \
     showlib/CommonUsing.h \
+    showlib/ConnectionPool.h \
     showlib/FileUtilities.h \
     showlib/JSONSerializable.h \
     showlib/NumericOperators.h \
