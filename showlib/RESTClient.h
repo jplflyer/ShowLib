@@ -85,6 +85,7 @@ public:
 
 	void setStandardHeader(const std::string &name, const std::string &value);
     void pushStandardHeader(HTTPHeader::Pointer hdr) { standardHeaders.push_back(hdr); }
+    void replaceStandardHeader(HTTPHeader::Pointer hdr);
 
     nlohmann::json get(const std::string &url, HTTPHeader::Vector *headers = nullptr);
     nlohmann::json put(const std::string &url, const nlohmann::json &json, HTTPHeader::Vector *headers = nullptr);

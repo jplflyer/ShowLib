@@ -74,8 +74,7 @@ RESTClient::setDefaultTimeout(std::chrono::milliseconds timeout) {
 /**
  * Remember a header to set on all requests.
  */
-void
-RESTClient::setStandardHeader(const string &name, const string &value) {
+void RESTClient::setStandardHeader(const string &name, const string &value) {
     shared_ptr<HTTPHeader> header = nullptr;
 
     for (shared_ptr<HTTPHeader> & thisHeader: standardHeaders) {
@@ -94,9 +93,29 @@ RESTClient::setStandardHeader(const string &name, const string &value) {
 	}
 }
 
+/**
+ * This is an add or update of a standard header. If the header already
+ * is set, this replaces its value. Otherwise we add it.
+ */
+void RESTClient::replaceStandardHeader(HTTPHeader::Pointer hdr) {
+    for (const HTTPHeader::Pointer &thisHeader: standardHeaders) {
+        if (thisHeader->name == hdr->name) {
+            thisHeader->setValue(hdr->value);
+            return;
+        }
+    }
+
+    standardHeaders.push_back(hdr);
+}
+
+//======================================================================
+//
+//======================================================================
 typedef curlpp::OptionTrait<long, CURLOPT_TIMEOUT_MS> TimeoutMS;
 
-
+/**
+ * Prepare this curl request. Set the URL, set all the headers.
+ */
 void
 RESTClient::prepare(curlpp::Easy & request, const std::string &url, HTTPHeader::Vector *headers) {
     std::chrono::system_clock::time_point startTime = std::chrono::system_clock::now();
