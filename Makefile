@@ -10,7 +10,7 @@
 
 # This needs to be above the include, as he has targets.
 .PHONY: all makelib
-all: directories dependencies bin makelib bins
+all: directories dependencies bin makelib # bins
 
 # We include a standard base with lots of boilerplate.
 include Makefile-Base
@@ -21,7 +21,7 @@ TEST_BIN=test-bin${MACAPPEND}
 LIB_DIR=showlib
 
 VPATH := ${SRCDIR}:${LIB_DIR}:${TEST_SRC}
-INCLUDES += -I.
+INCLUDES += -I. -I/opt/homebrew/include
 CXXFLAGS += -O3
 CXXFLAGS += ${LOG4CPP_USE_FOUR_ARG_CONSTRUCTOR}
 LDFLAGS += -L/usr/local/opt/openssl/lib
@@ -64,7 +64,8 @@ echo:
 
 #======================================================================
 # We support grabbing some third-party libraries if they aren't already
-# installed in /usr/local/include.
+# installed in /usr/local/include. We'll add more dependencies: lines
+# in the sections that install the particular library
 #======================================================================
 .PHONY: dependencies
 dependencies:
@@ -72,25 +73,65 @@ dependencies:
 install_dependencies:
 
 #----------------------------------------------------------------------
+# nlohmann/json
+#----------------------------------------------------------------------
+ifeq ($(wildcard /usr/local/include/nlohmann/.*),)
+dependencies: /usr/local/include/nlohmann
+
+/tmp/nlohmann:
+	git clone git@github.com:nlohmann/json.git /tmp/nlohmann
+
+/usr/local/include/nlohmann: /tmp/nlohmann
+	mkdir -p $@
+	cp -R /tmp/nlohmann/include/nlohmann/* $@
+
+endif
+
+#----------------------------------------------------------------------
 # jwt-cpp is a JSON Web Token includes-only library.
 #----------------------------------------------------------------------
 ifeq ($(wildcard /usr/local/include/jwt-cpp/.*),)
 
-JWT_CPP_DIR=src/includes/jwt-cpp
-dependencies: ${JWT_CPP_DIR}
+dependencies: /usr/local/include/jwt-cpp
 
-${JWT_CPP_DIR}: /tmp/jwt-cpp
+/usr/local/include/jwt-cpp: /tmp/jwt-cpp
 	mkdir -p $@
-	cp -R /tmp/jwt-cpp/include/jwt-cpp/* $@
+	cp  -R /tmp/jwt-cpp/include/jwt-cpp/* $@
 
 /tmp/jwt-cpp:
 	git clone https://github.com/Thalhammer/jwt-cpp.git /tmp/jwt-cpp
 
-install_dependencies: /usr/local/include/jwt-cpp
+endif
 
-/usr/local/include/jwt-cpp: ${JWT_CPP_DIR}
-	mkdir -p $@
-	cp -R ${JWT_CPP_DIR}/* $@
+#----------------------------------------------------------------------
+# curlpp library
+#----------------------------------------------------------------------
+
+ifeq ($(wildcard /usr/local/include/curlpp/.*),)
+dependencies: /usr/local/include/curlpp
+
+/usr/local/include/curlpp: /tmp/curlpp
+
+/tmp/curlpp:
+	git clone git@github.com:jpbarrette/curlpp.git /tmp/curlpp
+	cd /tmp/curlpp
+	cmake .
+	make
+	sudo make install
+
+endif
+
+#----------------------------------------------------------------------
+# Poco
+#----------------------------------------------------------------------
+ifeq ($(wildcard /usr/local/include/poco/.*),)
+dependencies: /usr/local/include/poco
+
+/usr/local/include/poco: /tmp/poco
+	cd /tmp/poco; mkdir cmake-build; cd cmake-build; cmake ..; cmake --build . --config Release; sudo cmake --build . --target install
+
+/tmp/poco:
+	git clone git@github.com:pocoproject/poco.git /tmp/poco
 
 endif
 
@@ -122,7 +163,7 @@ bin/BCrypt-Password: ${OBJDIR}/BCrypt-Password.o ${LIB}
 # source files.
 #======================================================================
 .PHONY: install
-install: ${LIB} install_includes ${INSTALL_BASE}/etc/Makefile-Base ${INSTALL_BASE}/bin/BCrypt-Password install_dependencies
+install: ${LIB} install_includes ${INSTALL_BASE}/etc/Makefile-Base install_dependencies # ${INSTALL_BASE}/bin/BCrypt-Password
 	cp -p ${LIB} ${INSTALL_BASE}/lib
 
 .PHONY: install_includes
