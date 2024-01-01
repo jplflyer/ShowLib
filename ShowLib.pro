@@ -5,7 +5,7 @@ CONFIG += staticlib
 
 CONFIG += c++17
 CONFIG += sdk_no_version_chec
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.17
 
 INCLUDEPATH += include/ /usr/local/include
 
